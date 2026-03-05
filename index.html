@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0045)file:///C:/Users/eli01/Downloads/index_6.html -->
+<!-- saved from url=(0046)file:///C:/Users/eli01/Downloads/index_10.html -->
 <html lang="he" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -232,6 +232,13 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 20px;
+    min-height: 0;
+  }
+
+  .chart-canvas-wrap {
+    position: relative;
+    width: 100%;
+    height: 160px;
   }
 
   .chart-header {
@@ -982,7 +989,7 @@
     <button class="btn-settings" onclick="openSettingsModal()" title="הגדרות">⚙️</button>
     <button class="btn-scan" onclick="openScanModal()">
       <span>✍️</span>
-      <span>הוצאה בכתיבה חופשית</span>
+      <span>העלאת רצף הוצאות</span>
     </button>
     <button class="btn-add" onclick="openExpenseModal()" style="padding:12px 24px;font-size:15px;font-weight:900;">
       <span style="font-size:18px;">+</span>
@@ -1018,8 +1025,8 @@
     <div class="summary-grid" id="summary-cards">
     <div class="stat-card" style="">
       <div class="stat-label">היום</div>
-      <div class="stat-value" style="color:var(--accent);">$0</div>
-      <div class="stat-sub">0 הוצאות</div>
+      <div class="stat-value" style="color:var(--accent);">$79</div>
+      <div class="stat-sub">3 הוצאות</div>
     </div>
   
     <div class="stat-card" style="">
@@ -1064,8 +1071,8 @@
           <button class="filter-tab" id="line-period-90" onclick="setLinePeriod(90,this)" style="font-size:11px;padding:3px 10px;">3 חודשים</button>
           <button class="filter-tab" id="line-period-365" onclick="setLinePeriod(365,this)" style="font-size:11px;padding:3px 10px;">שנה</button>
         </div>
-        <div style="position:relative;height:150px;">
-          <canvas id="lineChart" style="box-sizing: border-box; display: block; height: 150px; width: 646px;" width="646" height="150"></canvas>
+        <div class="chart-canvas-wrap">
+          <canvas id="lineChart" style="box-sizing: border-box; display: block; height: 160px; width: 646px;" width="646" height="160"></canvas>
         </div>
       </div>
       <div class="chart-card">
@@ -1082,7 +1089,7 @@
           <button class="filter-tab" id="dash-donut-period-3m" onclick="setDashDonutPeriod(&#39;3m&#39;,this)" style="font-size:11px;padding:3px 10px;">3 חודשים</button>
           <button class="filter-tab" id="dash-donut-period-year" onclick="setDashDonutPeriod(&#39;year&#39;,this)" style="font-size:11px;padding:3px 10px;">שנה</button>
         </div>
-        <div style="position:relative;height:200px;">
+        <div class="chart-canvas-wrap" style="height:200px;">
           <canvas id="donutChart" style="box-sizing: border-box; display: block; height: 200px; width: 302px;" width="302" height="200"></canvas>
         </div>
       </div>
@@ -1093,7 +1100,65 @@
         <button class="btn-sm btn-ghost" onclick="switchPage(&#39;expenses&#39;)">הכל ←</button>
       </div>
       <div class="expense-list" id="recent-expenses">
+    <div class="expense-item" onclick="editExpense(&#39;seed2&#39;)" style="border-color:rgba(106,255,203,0.2);">
+      
+      <div class="exp-emoji" style="background:#ff9b6a22;">🛒</div>
+      <div class="exp-info">
+        <div class="exp-title">קניות</div>
+        <div class="exp-meta" style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;">
+          📍 סופר ·קניות סופר
+          · <span class="payment-badge badge-card">לא צוין</span>
+          <span class="period-tag">✈️ טיול ארצות הברית / ארגנטינה</span>
+          <span style="font-size:10px;color:rgba(106,255,203,0.7);font-weight:700;">✦ AI</span>
+        </div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-amount" style="color:#ff9b6a">$36</div>
+        <div class="exp-date">05.03.26</div>
+      </div>
+      <button class="delete-btn" onclick="deleteExpense(event,&#39;seed2&#39;)">🗑</button>
+    </div>
+  
+    <div class="expense-item" onclick="editExpense(&#39;seed3&#39;)" style="border-color:rgba(106,255,203,0.2);">
+      
+      <div class="exp-emoji" style="background:#6affcb22;">🚗</div>
+      <div class="exp-info">
+        <div class="exp-title">אובר</div>
+        <div class="exp-meta" style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;">
+          תחבורה
+          · <span class="payment-badge badge-card">לא צוין</span>
+          <span class="period-tag">✈️ טיול ארצות הברית / ארגנטינה</span>
+          <span style="font-size:10px;color:rgba(106,255,203,0.7);font-weight:700;">✦ AI</span>
+        </div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-amount" style="color:#6affcb">$23</div>
+        <div class="exp-date">05.03.26</div>
+      </div>
+      <button class="delete-btn" onclick="deleteExpense(event,&#39;seed3&#39;)">🗑</button>
+    </div>
+  
+    <div class="expense-item" onclick="editExpense(&#39;seed4&#39;)" style="border-color:rgba(106,255,203,0.2);">
+      
+      <div class="exp-emoji" style="background:#ff6a9c22;">🍔</div>
+      <div class="exp-info">
+        <div class="exp-title">בוריטו</div>
+        <div class="exp-meta" style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;">
+          אוכל בחוץ
+          · <span class="payment-badge badge-card">לא צוין</span>
+          <span class="period-tag">✈️ טיול ארצות הברית / ארגנטינה</span>
+          <span style="font-size:10px;color:rgba(106,255,203,0.7);font-weight:700;">✦ AI</span>
+        </div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-amount" style="color:#ff6a9c">$20</div>
+        <div class="exp-date">05.03.26</div>
+      </div>
+      <button class="delete-btn" onclick="deleteExpense(event,&#39;seed4&#39;)">🗑</button>
+    </div>
+  
     <div class="expense-item" onclick="editExpense(&#39;seed1&#39;)" style="border-color:rgba(106,255,203,0.2);">
+      
       <div class="exp-emoji" style="background:#c96aff22;">☕</div>
       <div class="exp-info">
         <div class="exp-title">קפה</div>
@@ -1111,61 +1176,8 @@
       <button class="delete-btn" onclick="deleteExpense(event,&#39;seed1&#39;)">🗑</button>
     </div>
   
-    <div class="expense-item" onclick="editExpense(&#39;seed2&#39;)" style="border-color:rgba(106,255,203,0.2);">
-      <div class="exp-emoji" style="background:#ff9b6a22;">🛒</div>
-      <div class="exp-info">
-        <div class="exp-title">קניות</div>
-        <div class="exp-meta" style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;">
-          📍 סופר ·קניות סופר
-          · <span class="payment-badge badge-card">לא צוין</span>
-          <span class="period-tag">✈️ טיול ארצות הברית / ארגנטינה</span>
-          <span style="font-size:10px;color:rgba(106,255,203,0.7);font-weight:700;">✦ AI</span>
-        </div>
-      </div>
-      <div class="exp-right">
-        <div class="exp-amount" style="color:#ff9b6a">$36</div>
-        <div class="exp-date">03.03.26</div>
-      </div>
-      <button class="delete-btn" onclick="deleteExpense(event,&#39;seed2&#39;)">🗑</button>
-    </div>
-  
-    <div class="expense-item" onclick="editExpense(&#39;seed3&#39;)" style="border-color:rgba(106,255,203,0.2);">
-      <div class="exp-emoji" style="background:#6affcb22;">🚗</div>
-      <div class="exp-info">
-        <div class="exp-title">אובר</div>
-        <div class="exp-meta" style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;">
-          תחבורה
-          · <span class="payment-badge badge-card">לא צוין</span>
-          <span class="period-tag">✈️ טיול ארצות הברית / ארגנטינה</span>
-          <span style="font-size:10px;color:rgba(106,255,203,0.7);font-weight:700;">✦ AI</span>
-        </div>
-      </div>
-      <div class="exp-right">
-        <div class="exp-amount" style="color:#6affcb">$23</div>
-        <div class="exp-date">03.03.26</div>
-      </div>
-      <button class="delete-btn" onclick="deleteExpense(event,&#39;seed3&#39;)">🗑</button>
-    </div>
-  
-    <div class="expense-item" onclick="editExpense(&#39;seed4&#39;)" style="border-color:rgba(106,255,203,0.2);">
-      <div class="exp-emoji" style="background:#ff6a9c22;">🍔</div>
-      <div class="exp-info">
-        <div class="exp-title">בוריטו</div>
-        <div class="exp-meta" style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;">
-          אוכל בחוץ
-          · <span class="payment-badge badge-card">לא צוין</span>
-          <span class="period-tag">✈️ טיול ארצות הברית / ארגנטינה</span>
-          <span style="font-size:10px;color:rgba(106,255,203,0.7);font-weight:700;">✦ AI</span>
-        </div>
-      </div>
-      <div class="exp-right">
-        <div class="exp-amount" style="color:#ff6a9c">$20</div>
-        <div class="exp-date">03.03.26</div>
-      </div>
-      <button class="delete-btn" onclick="deleteExpense(event,&#39;seed4&#39;)">🗑</button>
-    </div>
-  
     <div class="expense-item" onclick="editExpense(&#39;seed5&#39;)" style="border-color:rgba(106,255,203,0.2);">
+      
       <div class="exp-emoji" style="background:#7c6aff22;">👟</div>
       <div class="exp-info">
         <div class="exp-title">אדידס</div>
@@ -1184,6 +1196,7 @@
     </div>
   
     <div class="expense-item" onclick="editExpense(&#39;seed6&#39;)" style="border-color:rgba(106,255,203,0.2);">
+      
       <div class="exp-emoji" style="background:#7c6aff22;">👟</div>
       <div class="exp-info">
         <div class="exp-title">נייקי</div>
@@ -1202,6 +1215,7 @@
     </div>
   
     <div class="expense-item" onclick="editExpense(&#39;1772497922594&#39;)" style="">
+      
       <div class="exp-emoji" style="background:#6affcb22;">🚗</div>
       <div class="exp-info">
         <div class="exp-title">אובר</div>
@@ -1226,12 +1240,62 @@
   <div class="page" id="page-expenses">
     <div class="section-header">
       <div class="section-title">📋 כל ההוצאות</div>
-      <div style="display:flex;gap:10px;align-items:center;">
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn-sm btn-ghost" id="multi-select-btn" onclick="toggleMultiSelect()" style="font-size:12px;">☑️ בחירה מרובה</button>
         <div class="view-toggle">
           <button class="view-toggle-btn active" id="view-btn-list" onclick="setExpenseView(&#39;list&#39;)">☰ רשימה</button>
           <button class="view-toggle-btn" id="view-btn-table" onclick="setExpenseView(&#39;table&#39;)">⊞ טבלה</button>
         </div>
         <button class="btn-add" style="font-size:13px; padding:8px 16px;" onclick="openExpenseModal()">+ הוצאה חדשה</button>
+      </div>
+    </div>
+    <!-- Multi-select toolbar -->
+    <div id="multi-select-bar" style="display:none;background:var(--surface2);border:1px solid var(--accent);border-radius:var(--radius);padding:12px 14px;margin-bottom:12px;align-items:center;gap:10px;flex-wrap:wrap;">
+      <span id="multi-select-count" style="font-size:13px;font-weight:700;color:var(--accent);">0 נבחרו</span>
+      <button class="btn-sm btn-withdraw" id="multi-edit-btn" onclick="openMultiEditModal()" style="display:none;">✏️ ערוך נבחרות</button>
+      <button class="btn-sm btn-ghost" onclick="cancelMultiSelect()">ביטול</button>
+    </div>
+
+    <!-- Multi-edit modal -->
+    <div class="modal-overlay" id="multi-edit-modal">
+      <div class="modal" style="max-width:400px;">
+        <div class="modal-header">
+          <div class="modal-title">✏️ עריכת הוצאות נבחרות</div>
+          <button class="close-btn" onclick="closeMultiEditModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div id="multi-edit-summary" style="font-size:13px;color:var(--text2);margin-bottom:16px;padding:10px;background:var(--surface2);border-radius:8px;"></div>
+          <div style="font-size:12px;color:var(--text3);margin-bottom:14px;">השאר ריק שדות שלא תרצה לשנות</div>
+
+          <div class="form-group">
+            <label class="form-label">📅 תאריך חדש</label>
+            <input type="date" class="form-input" id="multi-edit-date">
+          </div>
+          <div class="form-group">
+            <label class="form-label">🏷️ קטגוריה חדשה</label>
+            <select class="form-select" id="multi-edit-category">
+              <option value="">— ללא שינוי —</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">💱 מטבע חדש</label>
+            <select class="form-select" id="multi-edit-currency">
+              <option value="">— ללא שינוי —</option>
+              <option value="USD">$ USD</option>
+              <option value="CRC">₡ CRC</option>
+              <option value="ILS">₪ ILS</option>
+              <option value="EUR">€ EUR</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">💳 אמצעי תשלום</label>
+            <select class="form-select" id="multi-edit-payment">
+              <option value="">— ללא שינוי —</option>
+            </select>
+          </div>
+
+          <button class="btn-submit" onclick="confirmMultiEdit()" style="margin-top:8px;">בצע שינויים ✓</button>
+        </div>
       </div>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
@@ -1263,7 +1327,65 @@
     <button class="filter-tab " onclick="setExpenseFilter(&#39;other&#39;)">📦 אחר</button>
   </div>
     <div id="all-expenses" class="expense-list">
+    <div class="expense-item" onclick="editExpense(&#39;seed2&#39;)" style="border-color:rgba(106,255,203,0.2);">
+      
+      <div class="exp-emoji" style="background:#ff9b6a22;">🛒</div>
+      <div class="exp-info">
+        <div class="exp-title">קניות</div>
+        <div class="exp-meta" style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;">
+          📍 סופר ·קניות סופר
+          · <span class="payment-badge badge-card">לא צוין</span>
+          <span class="period-tag">✈️ טיול ארצות הברית / ארגנטינה</span>
+          <span style="font-size:10px;color:rgba(106,255,203,0.7);font-weight:700;">✦ AI</span>
+        </div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-amount" style="color:#ff9b6a">$36</div>
+        <div class="exp-date">05.03.26</div>
+      </div>
+      <button class="delete-btn" onclick="deleteExpense(event,&#39;seed2&#39;)">🗑</button>
+    </div>
+  
+    <div class="expense-item" onclick="editExpense(&#39;seed3&#39;)" style="border-color:rgba(106,255,203,0.2);">
+      
+      <div class="exp-emoji" style="background:#6affcb22;">🚗</div>
+      <div class="exp-info">
+        <div class="exp-title">אובר</div>
+        <div class="exp-meta" style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;">
+          תחבורה
+          · <span class="payment-badge badge-card">לא צוין</span>
+          <span class="period-tag">✈️ טיול ארצות הברית / ארגנטינה</span>
+          <span style="font-size:10px;color:rgba(106,255,203,0.7);font-weight:700;">✦ AI</span>
+        </div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-amount" style="color:#6affcb">$23</div>
+        <div class="exp-date">05.03.26</div>
+      </div>
+      <button class="delete-btn" onclick="deleteExpense(event,&#39;seed3&#39;)">🗑</button>
+    </div>
+  
+    <div class="expense-item" onclick="editExpense(&#39;seed4&#39;)" style="border-color:rgba(106,255,203,0.2);">
+      
+      <div class="exp-emoji" style="background:#ff6a9c22;">🍔</div>
+      <div class="exp-info">
+        <div class="exp-title">בוריטו</div>
+        <div class="exp-meta" style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;">
+          אוכל בחוץ
+          · <span class="payment-badge badge-card">לא צוין</span>
+          <span class="period-tag">✈️ טיול ארצות הברית / ארגנטינה</span>
+          <span style="font-size:10px;color:rgba(106,255,203,0.7);font-weight:700;">✦ AI</span>
+        </div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-amount" style="color:#ff6a9c">$20</div>
+        <div class="exp-date">05.03.26</div>
+      </div>
+      <button class="delete-btn" onclick="deleteExpense(event,&#39;seed4&#39;)">🗑</button>
+    </div>
+  
     <div class="expense-item" onclick="editExpense(&#39;seed1&#39;)" style="border-color:rgba(106,255,203,0.2);">
+      
       <div class="exp-emoji" style="background:#c96aff22;">☕</div>
       <div class="exp-info">
         <div class="exp-title">קפה</div>
@@ -1281,61 +1403,8 @@
       <button class="delete-btn" onclick="deleteExpense(event,&#39;seed1&#39;)">🗑</button>
     </div>
   
-    <div class="expense-item" onclick="editExpense(&#39;seed2&#39;)" style="border-color:rgba(106,255,203,0.2);">
-      <div class="exp-emoji" style="background:#ff9b6a22;">🛒</div>
-      <div class="exp-info">
-        <div class="exp-title">קניות</div>
-        <div class="exp-meta" style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;">
-          📍 סופר ·קניות סופר
-          · <span class="payment-badge badge-card">לא צוין</span>
-          <span class="period-tag">✈️ טיול ארצות הברית / ארגנטינה</span>
-          <span style="font-size:10px;color:rgba(106,255,203,0.7);font-weight:700;">✦ AI</span>
-        </div>
-      </div>
-      <div class="exp-right">
-        <div class="exp-amount" style="color:#ff9b6a">$36</div>
-        <div class="exp-date">03.03.26</div>
-      </div>
-      <button class="delete-btn" onclick="deleteExpense(event,&#39;seed2&#39;)">🗑</button>
-    </div>
-  
-    <div class="expense-item" onclick="editExpense(&#39;seed3&#39;)" style="border-color:rgba(106,255,203,0.2);">
-      <div class="exp-emoji" style="background:#6affcb22;">🚗</div>
-      <div class="exp-info">
-        <div class="exp-title">אובר</div>
-        <div class="exp-meta" style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;">
-          תחבורה
-          · <span class="payment-badge badge-card">לא צוין</span>
-          <span class="period-tag">✈️ טיול ארצות הברית / ארגנטינה</span>
-          <span style="font-size:10px;color:rgba(106,255,203,0.7);font-weight:700;">✦ AI</span>
-        </div>
-      </div>
-      <div class="exp-right">
-        <div class="exp-amount" style="color:#6affcb">$23</div>
-        <div class="exp-date">03.03.26</div>
-      </div>
-      <button class="delete-btn" onclick="deleteExpense(event,&#39;seed3&#39;)">🗑</button>
-    </div>
-  
-    <div class="expense-item" onclick="editExpense(&#39;seed4&#39;)" style="border-color:rgba(106,255,203,0.2);">
-      <div class="exp-emoji" style="background:#ff6a9c22;">🍔</div>
-      <div class="exp-info">
-        <div class="exp-title">בוריטו</div>
-        <div class="exp-meta" style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;">
-          אוכל בחוץ
-          · <span class="payment-badge badge-card">לא צוין</span>
-          <span class="period-tag">✈️ טיול ארצות הברית / ארגנטינה</span>
-          <span style="font-size:10px;color:rgba(106,255,203,0.7);font-weight:700;">✦ AI</span>
-        </div>
-      </div>
-      <div class="exp-right">
-        <div class="exp-amount" style="color:#ff6a9c">$20</div>
-        <div class="exp-date">03.03.26</div>
-      </div>
-      <button class="delete-btn" onclick="deleteExpense(event,&#39;seed4&#39;)">🗑</button>
-    </div>
-  
     <div class="expense-item" onclick="editExpense(&#39;seed5&#39;)" style="border-color:rgba(106,255,203,0.2);">
+      
       <div class="exp-emoji" style="background:#7c6aff22;">👟</div>
       <div class="exp-info">
         <div class="exp-title">אדידס</div>
@@ -1354,6 +1423,7 @@
     </div>
   
     <div class="expense-item" onclick="editExpense(&#39;seed6&#39;)" style="border-color:rgba(106,255,203,0.2);">
+      
       <div class="exp-emoji" style="background:#7c6aff22;">👟</div>
       <div class="exp-info">
         <div class="exp-title">נייקי</div>
@@ -1372,6 +1442,7 @@
     </div>
   
     <div class="expense-item" onclick="editExpense(&#39;1772497922594&#39;)" style="">
+      
       <div class="exp-emoji" style="background:#6affcb22;">🚗</div>
       <div class="exp-info">
         <div class="exp-title">אובר</div>
@@ -1523,7 +1594,7 @@
     <div class="summary-grid" id="stats-kpi" style="margin-bottom:24px;">
       <div class="stat-card">
         <div class="stat-label">היום</div>
-        <div class="stat-value" style="color:var(--accent);font-size:22px;">$0</div>
+        <div class="stat-value" style="color:var(--accent);font-size:22px;">$79</div>
       </div>
     
       <div class="stat-card">
@@ -1538,7 +1609,7 @@
     
       <div class="stat-card">
         <div class="stat-label">ממוצע יומי</div>
-        <div class="stat-value" style="color:var(--accent4);font-size:22px;">$303</div>
+        <div class="stat-value" style="color:var(--accent4);font-size:22px;">$151.5</div>
       </div>
     </div>
 
@@ -1755,31 +1826,49 @@
 <div class="modal-overlay" id="scan-modal">
   <div class="modal" style="max-width:600px;">
     <div class="modal-header">
-      <div class="modal-title">✍️ הוסף הוצאות בכתיבה חופשית</div>
+      <div class="modal-title">📋 העלאת רצף הוצאות</div>
       <button class="close-btn" onclick="closeScanModal()">✕</button>
     </div>
     <div class="modal-body">
 
       <!-- Step 1: Input -->
       <div id="scan-step-upload">
-        <!-- Tabs: text / image -->
+        <!-- Tabs: AI / manual / image -->
         <div style="display:flex;gap:0;background:var(--surface2);border-radius:10px;padding:4px;margin-bottom:16px;">
-          <button id="tab-text" onclick="switchScanTab(&#39;text&#39;)" style="flex:1;padding:8px;border:none;border-radius:8px;font-family:&#39;Heebo&#39;,sans-serif;font-size:13px;font-weight:700;cursor:pointer;background:var(--surface3);color:var(--text);transition:all 0.2s;">✍️ הקלדה חופשית</button>
-          <button id="tab-image" onclick="switchScanTab(&#39;image&#39;)" style="flex:1;padding:8px;border:none;border-radius:8px;font-family:&#39;Heebo&#39;,sans-serif;font-size:13px;font-weight:700;cursor:pointer;background:none;color:var(--text2);transition:all 0.2s;">📷 העלאת תמונה</button>
+          <button id="tab-ai" onclick="switchScanTab(&#39;ai&#39;)" style="flex:1;padding:8px;border:none;border-radius:8px;font-family:&#39;Heebo&#39;,sans-serif;font-size:12px;font-weight:700;cursor:pointer;background:var(--surface3);color:var(--text);transition:all 0.2s;">🤖 AI</button>
+          <button id="tab-manual" onclick="switchScanTab(&#39;manual&#39;)" style="flex:1;padding:8px;border:none;border-radius:8px;font-family:&#39;Heebo&#39;,sans-serif;font-size:12px;font-weight:700;cursor:pointer;background:none;color:var(--text2);transition:all 0.2s;">✍️ ידני</button>
+          <button id="tab-image" onclick="switchScanTab(&#39;image&#39;)" style="flex:1;padding:8px;border:none;border-radius:8px;font-family:&#39;Heebo&#39;,sans-serif;font-size:12px;font-weight:700;cursor:pointer;background:none;color:var(--text2);transition:all 0.2s;">📷 תמונה</button>
         </div>
 
-        <!-- Text tab -->
-        <div id="scan-tab-text">
-          <textarea id="scan-free-text" class="form-textarea" rows="6" placeholder="כתוב חופשי לגמרי, לדוגמה:
-
+        <!-- AI tab -->
+        <div id="scan-tab-ai">
+          <textarea id="scan-free-text" class="form-textarea" rows="5" placeholder="כתוב חופשי לגמרי:
 3 למרץ
 קפה בשדה 15
 אובר לשדה התעופה 23
-סופר 36
-בוריטו 20
-
-ה-AI יבין הכל אוטומטית 🤖" style="resize:vertical;line-height:1.8;font-size:14px;"></textarea>
+סופר 36" style="resize:vertical;line-height:1.8;font-size:14px;"></textarea>
           <button class="btn-submit" style="margin-top:12px;" onclick="handleScanText()">🤖 נתח עם AI</button>
+          <div style="margin-top:10px;font-size:11px;color:var(--text3);">דורש API Key בהגדרות ⚙️</div>
+        </div>
+
+        <!-- Manual tab -->
+        <div id="scan-tab-manual" style="display:none;">
+          <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">שורה לכל הוצאה: <strong style="color:var(--text2);">סכום מילה</strong> · לדוגמה: <code style="background:var(--surface2);padding:2px 6px;border-radius:4px;">45 קפה</code> או <code style="background:var(--surface2);padding:2px 6px;border-radius:4px;">קפה 45</code></div>
+          <textarea id="scan-manual-text" class="form-textarea" rows="5" placeholder="45 קפה
+120 סופר
+23 אובר
+80 מסעדה
+15 קפה" style="resize:vertical;line-height:1.8;font-size:14px;"></textarea>
+          <div style="display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap;">
+            <input type="date" class="form-input" id="scan-manual-date" style="font-size:13px;padding:7px 10px;flex:1;">
+            <select class="form-select" id="scan-manual-currency" style="font-size:13px;padding:7px 10px;flex:1;">
+              <option value="USD">$ USD</option>
+              <option value="CRC">₡ CRC</option>
+              <option value="ILS">₪ ILS</option>
+              <option value="EUR">€ EUR</option>
+            </select>
+          </div>
+          <button class="btn-submit" style="margin-top:12px;" onclick="handleManualText()">➕ הוסף הוצאות</button>
         </div>
 
         <!-- Image tab -->
@@ -1790,10 +1879,6 @@
             <div class="drop-title">גרור תמונה לכאן, או לחץ לבחירה</div>
             <div class="drop-sub">צילום פתקית, רשימת קניות, כל תמונת טקסט</div>
           </div>
-        </div>
-
-        <div style="margin-top:12px; padding:10px 14px; background:var(--surface2); border-radius:10px; font-size:12px; color:var(--text3); line-height:1.6;">
-          🤖 ה-AI ישלים קטגוריה, תאריך ומטבע אוטומטית. <span style="color:rgba(106,255,203,0.7);">שדות שהושלמו אוטומטית יסומנו בירוק</span>
         </div>
       </div>
 
@@ -1915,6 +2000,8 @@ let donutPeriod = 'all';
 let dashDonutMode = 'pct';
 let dashDonutPeriod = 'month';
 let linePeriodDays = 30;
+let multiSelectMode = false;
+let multiSelectedIds = new Set();
 let settingsSelectedPayment = null;
 let selectedWithdrawAccount = null;
 
@@ -2055,6 +2142,8 @@ function setTodayDate() {
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('exp-date').value = today;
   document.getElementById('withdraw-date').value = today;
+  const manualDate = document.getElementById('scan-manual-date');
+  if (manualDate) manualDate.value = today;
 }
 
 // ==================== NAVIGATION ====================
@@ -2066,12 +2155,12 @@ function switchPage(page) {
     if (t.textContent.toLowerCase().includes(getTabText(page))) t.classList.add('active');
   });
   render();
-  // Redraw charts after page is visible
   if (page === 'dashboard') {
-    setTimeout(() => { renderLineChart(); renderDonutChart(); }, 100);
+    setTimeout(() => { renderLineChart(); renderDonutChart(); }, 200);
+    setTimeout(() => { renderLineChart(); renderDonutChart(); }, 600);
   }
   if (page === 'stats') {
-    setTimeout(() => { renderStats(); }, 100);
+    setTimeout(() => { renderStats(); }, 200);
   }
 }
 
@@ -2188,8 +2277,20 @@ function renderExpenseItem(e, showDelete = true) {
   const isCash = e.payment === 'מזומן';
   const hasAI = e._aiFields && e._aiFields.length > 0;
   const trip = e.tripId ? state.trips?.find(t => t.id === e.tripId) : null;
+  const isSelected = multiSelectMode && multiSelectedIds.has(e.id);
+
+  const checkbox = multiSelectMode ? `
+    <div onclick="event.stopPropagation();toggleSelectExpense('${e.id}')"
+      style="width:22px;height:22px;border-radius:6px;border:2px solid ${isSelected ? 'var(--accent)' : 'var(--border)'};
+      background:${isSelected ? 'var(--accent)' : 'transparent'};display:flex;align-items:center;justify-content:center;
+      cursor:pointer;flex-shrink:0;transition:all 0.15s;">
+      ${isSelected ? '<span style="color:white;font-size:13px;font-weight:900;">✓</span>' : ''}
+    </div>` : '';
+
   return `
-    <div class="expense-item" onclick="editExpense('${e.id}')" style="${hasAI ? 'border-color:rgba(106,255,203,0.2);' : ''}">
+    <div class="expense-item" onclick="${multiSelectMode ? `toggleSelectExpense('${e.id}')` : `editExpense('${e.id}')`}"
+      style="${hasAI ? 'border-color:rgba(106,255,203,0.2);' : ''}${isSelected ? 'background:rgba(124,106,255,0.08);border-color:rgba(124,106,255,0.3);' : ''}">
+      ${checkbox}
       <div class="exp-emoji" style="background:${cat.color}22;">${cat.emoji}</div>
       <div class="exp-info">
         <div class="exp-title">${e.desc || cat.name}</div>
@@ -2204,7 +2305,7 @@ function renderExpenseItem(e, showDelete = true) {
         <div class="exp-amount" style="color:${cat.color}">${sym}${parseFloat(e.amount).toLocaleString()}</div>
         <div class="exp-date">${formatDate(e.date)}</div>
       </div>
-      ${showDelete ? `<button class="delete-btn" onclick="deleteExpense(event,'${e.id}')">🗑</button>` : ''}
+      ${!multiSelectMode && showDelete ? `<button class="delete-btn" onclick="deleteExpense(event,'${e.id}')">🗑</button>` : ''}
     </div>
   `;
 }
@@ -2225,6 +2326,100 @@ function setExpenseView(v) {
   document.getElementById('view-btn-table')?.classList.toggle('active', v==='table');
   renderAllExpenses();
 }
+
+function toggleMultiSelect() {
+  multiSelectMode = !multiSelectMode;
+  multiSelectedIds.clear();
+  const bar = document.getElementById('multi-select-bar');
+  bar.style.display = multiSelectMode ? 'flex' : 'none';
+  const btn = document.getElementById('multi-select-btn');
+  if (btn) { btn.style.background = multiSelectMode ? 'var(--accent)' : ''; btn.style.color = multiSelectMode ? 'white' : ''; }
+  renderAllExpenses();
+}
+
+function cancelMultiSelect() {
+  multiSelectMode = false;
+  multiSelectedIds.clear();
+  document.getElementById('multi-select-bar').style.display = 'none';
+  const btn = document.getElementById('multi-select-btn');
+  if (btn) { btn.style.background = ''; btn.style.color = ''; }
+  renderAllExpenses();
+}
+
+function toggleSelectExpense(id) {
+  if (multiSelectedIds.has(id)) multiSelectedIds.delete(id);
+  else multiSelectedIds.add(id);
+  const count = multiSelectedIds.size;
+  document.getElementById('multi-select-count').textContent = `${count} נבחרו`;
+  const editBtn = document.getElementById('multi-edit-btn');
+  if (editBtn) editBtn.style.display = count > 0 ? 'inline-flex' : 'none';
+  renderAllExpenses();
+}
+
+function openMultiEditModal() {
+  if (!multiSelectedIds.size) return;
+  // Populate category select
+  const catSel = document.getElementById('multi-edit-category');
+  catSel.innerHTML = '<option value="">— ללא שינוי —</option>' +
+    state.categories.map(c => `<option value="${c.id}">${c.emoji} ${c.name}</option>`).join('');
+  // Populate payment select
+  const paySel = document.getElementById('multi-edit-payment');
+  paySel.innerHTML = '<option value="">— ללא שינוי —</option>' +
+    state.paymentMethods.map(p => `<option value="${p}">${p}</option>`).join('');
+  // Clear fields
+  document.getElementById('multi-edit-date').value = '';
+  document.getElementById('multi-edit-currency').value = '';
+  // Summary
+  const names = [...multiSelectedIds].map(id => {
+    const e = state.expenses.find(x => x.id === id);
+    return e ? `${e.desc || '?'} (${e.date})` : '';
+  }).filter(Boolean);
+  document.getElementById('multi-edit-summary').innerHTML =
+    `<strong>${multiSelectedIds.size} הוצאות נבחרו:</strong><br>${names.slice(0,5).join(' · ')}${names.length > 5 ? ` ועוד ${names.length-5}...` : ''}`;
+  document.getElementById('multi-edit-modal').classList.add('open');
+}
+
+function closeMultiEditModal() {
+  document.getElementById('multi-edit-modal').classList.remove('open');
+}
+
+function confirmMultiEdit() {
+  const newDate     = document.getElementById('multi-edit-date').value;
+  const newCategory = document.getElementById('multi-edit-category').value;
+  const newCurrency = document.getElementById('multi-edit-currency').value;
+  const newPayment  = document.getElementById('multi-edit-payment').value;
+
+  if (!newDate && !newCategory && !newCurrency && !newPayment) {
+    showToast('⚠️ לא נבחר שום שינוי'); return;
+  }
+
+  // Build confirmation message
+  const changes = [];
+  if (newDate)     changes.push(`תאריך: ${newDate}`);
+  if (newCategory) changes.push(`קטגוריה: ${state.categories.find(c=>c.id===newCategory)?.name}`);
+  if (newCurrency) changes.push(`מטבע: ${newCurrency}`);
+  if (newPayment)  changes.push(`תשלום: ${newPayment}`);
+
+  const msg = `לשנות ${multiSelectedIds.size} הוצאות?\n${changes.join('\n')}`;
+  if (!confirm(msg)) return;
+
+  // Apply changes
+  state.expenses.forEach(e => {
+    if (!multiSelectedIds.has(e.id)) return;
+    if (newDate)     e.date     = newDate;
+    if (newCategory) e.category = newCategory;
+    if (newCurrency) e.currency = newCurrency;
+    if (newPayment)  e.payment  = newPayment;
+  });
+
+  save();
+  closeMultiEditModal();
+  cancelMultiSelect();
+  render();
+  showToast(`✅ עודכנו ${multiSelectedIds.size} הוצאות`);
+}
+
+function applyMultiSelectDate() {}
 
 function renderAllExpenses() {
   const filterEl = document.getElementById('expense-filters');
@@ -2884,12 +3079,48 @@ function resetScanModal() {
 }
 
 function switchScanTab(tab) {
-  document.getElementById('scan-tab-text').style.display = tab === 'text' ? 'block' : 'none';
-  document.getElementById('scan-tab-image').style.display = tab === 'image' ? 'block' : 'none';
-  document.getElementById('tab-text').style.background = tab === 'text' ? 'var(--surface3)' : 'none';
-  document.getElementById('tab-text').style.color = tab === 'text' ? 'var(--text)' : 'var(--text2)';
-  document.getElementById('tab-image').style.background = tab === 'image' ? 'var(--surface3)' : 'none';
-  document.getElementById('tab-image').style.color = tab === 'image' ? 'var(--text)' : 'var(--text2)';
+  document.getElementById('scan-tab-ai').style.display     = tab === 'ai'     ? 'block' : 'none';
+  document.getElementById('scan-tab-manual').style.display = tab === 'manual' ? 'block' : 'none';
+  document.getElementById('scan-tab-image').style.display  = tab === 'image'  ? 'block' : 'none';
+  ['ai','manual','image'].forEach(t => {
+    const b = document.getElementById('tab-' + t);
+    if (!b) return;
+    b.style.background = t === tab ? 'var(--surface3)' : 'none';
+    b.style.color = t === tab ? 'var(--text)' : 'var(--text2)';
+  });
+}
+
+function handleManualText() {
+  const text = document.getElementById('scan-manual-text').value.trim();
+  if (!text) { showToast('⚠️ נא להזין טקסט'); return; }
+  const date = document.getElementById('scan-manual-date').value || new Date().toISOString().split('T')[0];
+  const currency = document.getElementById('scan-manual-currency').value || (state.settings?.defaultCurrency || 'USD');
+
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  const results = [];
+
+  for (const line of lines) {
+    const numFirst = line.match(/^([0-9]+(?:\.[0-9]+)?)\s+(.+)$/);
+    const numLast  = line.match(/^(.+?)\s+([0-9]+(?:\.[0-9]+)?)$/);
+    let amount = null, desc = '';
+    if (numFirst)      { amount = parseFloat(numFirst[1]); desc = numFirst[2].trim(); }
+    else if (numLast)  { amount = parseFloat(numLast[2]);  desc = numLast[1].trim(); }
+    if (!amount || amount <= 0) continue;
+    results.push({
+      desc, amount, currency, currency_src: 'user',
+      category: guessCategoryFromDesc(desc), category_src: 'ai',
+      date, date_src: 'user', place: '', place_src: 'ai',
+      desc_src: 'user', amount_src: 'user'
+    });
+  }
+
+  if (!results.length) { showToast('⚠️ לא זוהו הוצאות — פורמט: "45 קפה"'); return; }
+
+  detectedExpenses = results.map((ex, i) => ({
+    ...ex, _id: i, _excluded: false, category: matchCategory(ex.category)
+  }));
+  document.getElementById('scan-step-results').classList.add('active');
+  renderDetectedList();
 }
 
 // --- Text input path ---
