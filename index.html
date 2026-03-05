@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0046)file:///C:/Users/eli01/Downloads/index_13.html -->
+<!-- saved from url=(0046)file:///C:/Users/eli01/Downloads/index_15.html -->
 <html lang="he" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -1077,8 +1077,8 @@
           <button class="filter-tab" id="line-period-365" onclick="setLinePeriod(365,this)" style="font-size:11px;padding:3px 10px;">שנה</button>
           <select id="line-trip-select" onchange="setLineTripFilter(this.value)" style="font-size:11px;padding:3px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;color:var(--text2);font-family:&#39;Heebo&#39;,sans-serif;cursor:pointer;"><option value="">🗓️ פרק זמן...</option><option value="trip_usa_arg">טיול ארצות הברית / ארגנטינה</option></select>
         </div>
-        <div id="line-chart-wrap" style="position:relative;width:100%;height:160px;">
-          <canvas id="lineChart" style="display: block; width: 646px; height: 160px;" width="646" height="160"></canvas>
+        <div id="line-chart-wrap" style="position:relative;height:160px;width:100%;">
+          <canvas id="lineChart" style="box-sizing: border-box; display: block; height: 160px; width: 646px;" width="646" height="160"></canvas>
         </div>
         <div id="line-table-wrap" style="display:none;max-height:200px;overflow-y:auto;">
           <table id="line-table" style="width:100%;border-collapse:collapse;font-size:12px;"></table>
@@ -1105,8 +1105,8 @@
           <button class="filter-tab" id="dash-donut-period-year" onclick="setDashDonutPeriod(&#39;year&#39;,this)" style="font-size:11px;padding:3px 10px;">שנה</button>
           <select id="donut-trip-select" onchange="setDonutTripFilter(this.value)" style="font-size:11px;padding:3px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;color:var(--text2);font-family:&#39;Heebo&#39;,sans-serif;cursor:pointer;"><option value="">🗓️ פרק זמן...</option><option value="trip_usa_arg">טיול ארצות הברית / ארגנטינה</option></select>
         </div>
-        <div id="donut-chart-wrap" style="position:relative;width:100%;height:220px;">
-          <canvas id="donutChart" style="display: block; width: 302px; height: 220px; box-sizing: border-box;" width="302" height="220"></canvas>
+        <div id="donut-chart-wrap" style="position:relative;height:220px;width:100%;">
+          <canvas id="donutChart" style="box-sizing: border-box; display: block; height: 220px; width: 302px;" width="302" height="220"></canvas>
         </div>
         <div id="donut-table-wrap" style="display:none;max-height:240px;overflow-y:auto;">
           <table id="donut-table" style="width:100%;border-collapse:collapse;font-size:12px;"></table>
@@ -2173,29 +2173,17 @@ if (state.settings?.pageTitle) {
 render();
 
 window.addEventListener('load', () => {
-  // Draw charts when canvas becomes visible using ResizeObserver
-  const lineCanvas = document.getElementById('lineChart');
-  const donutCanvas = document.getElementById('donutChart');
-  let chartsDrawn = false;
-
+  let attempts = 0;
   const tryDraw = () => {
-    if (chartsDrawn) return;
-    if (lineCanvas && lineCanvas.offsetWidth > 0) {
-      chartsDrawn = true;
+    const wrap = document.getElementById('line-chart-wrap');
+    if (wrap && wrap.offsetWidth > 10) {
       renderLineChart();
       renderDonutChart();
+    } else if (attempts++ < 30) {
+      setTimeout(tryDraw, 100);
     }
   };
-
-  // Try immediately, then watch for visibility
   setTimeout(tryDraw, 100);
-  setTimeout(tryDraw, 500);
-  setTimeout(tryDraw, 1000);
-
-  if (window.ResizeObserver) {
-    const ro = new ResizeObserver(tryDraw);
-    if (lineCanvas) ro.observe(lineCanvas);
-  }
 });
 
 function setTodayDate() {
@@ -2216,8 +2204,18 @@ function switchPage(page) {
   });
   render();
   if (page === 'dashboard') {
-    setTimeout(() => { renderLineChart(); renderDonutChart(); }, 200);
-    setTimeout(() => { renderLineChart(); renderDonutChart(); }, 600);
+    // Retry until container has real dimensions (mobile renders slowly)
+    let attempts = 0;
+    const tryDraw = () => {
+      const wrap = document.getElementById('line-chart-wrap');
+      if (wrap && wrap.offsetWidth > 10) {
+        renderLineChart();
+        renderDonutChart();
+      } else if (attempts++ < 20) {
+        setTimeout(tryDraw, 100);
+      }
+    };
+    setTimeout(tryDraw, 50);
   }
   if (page === 'stats') {
     setTimeout(() => { renderStats(); }, 200);
@@ -2803,7 +2801,16 @@ function renderCashPage() {
 
 // ==================== CHARTS ====================
 function renderCharts() {
-  setTimeout(() => { renderLineChart(); renderDonutChart(); }, 150);
+  const tryRender = (attempt) => {
+    const wrap = document.getElementById('line-chart-wrap');
+    if (wrap && wrap.offsetWidth > 10) {
+      renderLineChart();
+      renderDonutChart();
+    } else if (attempt < 15) {
+      setTimeout(() => tryRender(attempt + 1), 100);
+    }
+  };
+  setTimeout(() => tryRender(1), 100);
 }
 
 let lineView = 'chart';
@@ -2962,12 +2969,6 @@ function renderLineChart() {
 
   const canvasEl = document.getElementById('lineChart');
   if (!canvasEl) return;
-  const wrap = document.getElementById('line-chart-wrap');
-  const w = wrap ? wrap.offsetWidth : 300;
-  canvasEl.width  = w;
-  canvasEl.height = 160;
-  canvasEl.style.width  = w + 'px';
-  canvasEl.style.height = '160px';
   const ctx = canvasEl.getContext('2d');
   if (lineChartInstance) { try { lineChartInstance.destroy(); } catch(e){} lineChartInstance = null; }
 
@@ -2982,23 +2983,17 @@ function renderLineChart() {
         backgroundColor: 'rgba(124,106,255,0.1)',
         fill: true,
         tension: 0.4,
-        pointRadius: days > 30 ? 2 : 4,
+        pointRadius: (lineTripFilter ? data.length : linePeriodDays) > 30 ? 2 : 4,
         pointBackgroundColor: '#7c6aff',
       }]
     },
     options: {
-      responsive: false,
-      animation: false,
+      responsive: true,
+      maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        x: {
-          ticks: { color: '#5e5b7a', maxTicksLimit: days > 30 ? 6 : 10, font: { size: 10, family: 'Heebo' } },
-          grid: { color: '#2e2e3e' }
-        },
-        y: {
-          ticks: { color: '#5e5b7a', font: { size: 10, family: 'Heebo' } },
-          grid: { color: '#2e2e3e' }
-        }
+        x: { ticks: { color: '#5e5b7a', maxTicksLimit: 8, font: { size: 10, family: 'Heebo' } }, grid: { color: '#2e2e3e' } },
+        y: { ticks: { color: '#5e5b7a', font: { size: 10, family: 'Heebo' } }, grid: { color: '#2e2e3e' } }
       }
     }
   });
@@ -3059,16 +3054,9 @@ function renderDonutChart() {
 
   const canvasEl = document.getElementById('donutChart');
   if (!canvasEl) return;
-  const wrap = document.getElementById('donut-chart-wrap');
-  const w = wrap ? wrap.offsetWidth : 300;
-  const h = 220;
-  canvasEl.width  = w;
-  canvasEl.height = h;
-  canvasEl.style.width  = w + 'px';
-  canvasEl.style.height = h + 'px';
   const ctx = canvasEl.getContext('2d');
   if (donutChartInstance) { try { donutChartInstance.destroy(); } catch(e){} donutChartInstance = null; }
-  if (!catData.length) { ctx.clearRect(0, 0, w, h); return; }
+  if (!catData.length) { ctx.clearRect(0, 0, canvasEl.width, canvasEl.height); return; }
 
   const grandTotal = catData.reduce((s,c) => s + c.total, 0);
 
@@ -3111,7 +3099,7 @@ function renderDonutChart() {
       }]
     },
     options: {
-      responsive: false, animation: false, maintainAspectRatio: false, cutout: '55%',
+      responsive: true, animation: false, maintainAspectRatio: false, cutout: '55%',
       plugins: {
         legend: { position: 'bottom', labels: { color: '#9e9bbb', font: { size: 11, family: 'Heebo' }, padding: 10, boxWidth: 12 } },
         tooltip: { callbacks: { label: (ctx) => {
