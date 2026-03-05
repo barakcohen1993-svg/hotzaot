@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0045)file:///C:/Users/eli01/Downloads/index_3.html -->
+<!-- saved from url=(0045)file:///C:/Users/eli01/Downloads/index_4.html -->
 <html lang="he" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -1029,9 +1029,9 @@
     </div>
   
     <div class="stat-card" style="">
-      <div class="stat-label">🌴 קוסטה ריקה</div>
-      <div class="stat-value" style="color:var(--accent3);">$0</div>
-      <div class="stat-sub">0 הוצאות</div>
+      <div class="stat-label">חודש אחרון</div>
+      <div class="stat-value" style="color:var(--accent3);">$303</div>
+      <div class="stat-sub">7 הוצאות</div>
     </div>
   
     <div class="stat-card" style="border:1.5px solid #ffd66a55;background:rgba(255,214,106,0.07);">
@@ -2015,7 +2015,29 @@ if (state.settings?.pageTitle) {
 render();
 
 window.addEventListener('load', () => {
-  setTimeout(() => { renderLineChart(); renderDonutChart(); }, 300);
+  // Draw charts when canvas becomes visible using ResizeObserver
+  const lineCanvas = document.getElementById('lineChart');
+  const donutCanvas = document.getElementById('donutChart');
+  let chartsDrawn = false;
+
+  const tryDraw = () => {
+    if (chartsDrawn) return;
+    if (lineCanvas && lineCanvas.offsetWidth > 0) {
+      chartsDrawn = true;
+      renderLineChart();
+      renderDonutChart();
+    }
+  };
+
+  // Try immediately, then watch for visibility
+  setTimeout(tryDraw, 100);
+  setTimeout(tryDraw, 500);
+  setTimeout(tryDraw, 1000);
+
+  if (window.ResizeObserver) {
+    const ro = new ResizeObserver(tryDraw);
+    if (lineCanvas) ro.observe(lineCanvas);
+  }
 });
 
 function setTodayDate() {
@@ -2100,24 +2122,19 @@ function getExpensesForPeriod(days) {
 
 function renderSummaryCards() {
   const today = new Date().toISOString().split('T')[0];
-  const todayExp = state.expenses.filter(e => e.date === today);
-  const weekExp = getExpensesForPeriod(7);
-  const monthExp = getExpensesForPeriod(30);
   const defCur = state.settings?.defaultCurrency || 'USD';
   const sumCur = arr => arr.filter(e => (e.currency || 'USD') === defCur).reduce((s, e) => s + parseFloat(e.amount), 0);
 
-  const costaExp = state.expenses.filter(e => {
-    const trip = state.trips?.find(t => t.id === e.tripId);
-    return trip && (trip.name.includes('קוסטה') || trip.name.toLowerCase().includes('costa'));
-  });
-
-  const allExp = state.expenses.filter(e => (e.currency || 'USD') === defCur);
+  const todayExp  = state.expenses.filter(e => e.date === today);
+  const weekExp   = getExpensesForPeriod(7);
+  const monthExp  = getExpensesForPeriod(30);
+  const allExp    = state.expenses.filter(e => (e.currency || 'USD') === defCur);
 
   const cards = [
-    { label: 'היום', value: formatAmount(sumCur(todayExp), defCur), sub: `${todayExp.length} הוצאות`, color: 'var(--accent)' },
-    { label: 'שבוע אחרון', value: formatAmount(sumCur(weekExp), defCur), sub: `${weekExp.length} הוצאות`, color: 'var(--accent2)' },
-    { label: '🌴 קוסטה ריקה', value: formatAmount(sumCur(costaExp), defCur), sub: `${costaExp.length} הוצאות`, color: 'var(--accent3)' },
-    { label: '💰 סה"כ', value: formatAmount(sumCur(allExp), defCur), sub: `${allExp.length} הוצאות סה"כ`, color: '#ffd66a', highlight: true },
+    { label: 'היום',         value: formatAmount(sumCur(todayExp), defCur),  sub: `${todayExp.length} הוצאות`,  color: 'var(--accent)'  },
+    { label: 'שבוע אחרון',  value: formatAmount(sumCur(weekExp), defCur),   sub: `${weekExp.length} הוצאות`,   color: 'var(--accent2)' },
+    { label: 'חודש אחרון',  value: formatAmount(sumCur(monthExp), defCur),  sub: `${monthExp.length} הוצאות`,  color: 'var(--accent3)' },
+    { label: '💰 סה"כ',     value: formatAmount(sumCur(allExp), defCur),    sub: `${allExp.length} הוצאות סה"כ`, color: '#ffd66a', highlight: true },
   ];
 
   document.getElementById('summary-cards').innerHTML = cards.map(c => `
