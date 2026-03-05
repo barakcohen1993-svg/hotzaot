@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0046)file:///C:/Users/eli01/Downloads/index_11.html -->
+<!-- saved from url=(0046)file:///C:/Users/eli01/Downloads/index_13.html -->
 <html lang="he" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -1061,45 +1061,68 @@
     </div>
   </div>
     <div class="charts-row">
+      <!-- LINE CHART CARD -->
       <div class="chart-card">
         <div class="chart-header">
           <div class="chart-title">📊 הוצאות לאורך זמן</div>
+          <div style="display:flex;gap:3px;background:var(--surface2);padding:3px;border-radius:8px;">
+            <button id="line-view-chart" onclick="setLineView(&#39;chart&#39;)" style="padding:3px 8px;border:none;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;font-family:&#39;Heebo&#39;,sans-serif;background:var(--accent);color:white;transition:all 0.2s;">📈</button>
+            <button id="line-view-table" onclick="setLineView(&#39;table&#39;)" style="padding:3px 8px;border:none;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;font-family:&#39;Heebo&#39;,sans-serif;background:none;color:var(--text2);transition:all 0.2s;">⊞</button>
+          </div>
         </div>
-        <div style="display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap;">
+        <div style="display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
           <button class="filter-tab" id="line-period-7" onclick="setLinePeriod(7,this)" style="font-size:11px;padding:3px 10px;">שבוע</button>
           <button class="filter-tab active" id="line-period-30" onclick="setLinePeriod(30,this)" style="font-size:11px;padding:3px 10px;">חודש</button>
           <button class="filter-tab" id="line-period-90" onclick="setLinePeriod(90,this)" style="font-size:11px;padding:3px 10px;">3 חודשים</button>
           <button class="filter-tab" id="line-period-365" onclick="setLinePeriod(365,this)" style="font-size:11px;padding:3px 10px;">שנה</button>
+          <select id="line-trip-select" onchange="setLineTripFilter(this.value)" style="font-size:11px;padding:3px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;color:var(--text2);font-family:&#39;Heebo&#39;,sans-serif;cursor:pointer;"><option value="">🗓️ פרק זמן...</option><option value="trip_usa_arg">טיול ארצות הברית / ארגנטינה</option></select>
         </div>
-        <div style="position:relative;width:100%;height:160px;">
-          <canvas id="lineChart" style="position: absolute; top: 0px; left: 0px; width: 646px; height: 160px; box-sizing: border-box; display: block;" width="646" height="160"></canvas>
+        <div id="line-chart-wrap" style="position:relative;width:100%;height:160px;">
+          <canvas id="lineChart" style="display: block; width: 646px; height: 160px;" width="646" height="160"></canvas>
+        </div>
+        <div id="line-table-wrap" style="display:none;max-height:200px;overflow-y:auto;">
+          <table id="line-table" style="width:100%;border-collapse:collapse;font-size:12px;"></table>
         </div>
       </div>
+
+      <!-- DONUT CHART CARD -->
       <div class="chart-card">
         <div class="chart-header">
           <div class="chart-title">🍕 לפי קטגוריה</div>
-          <div style="display:flex;gap:3px;background:var(--surface2);padding:3px;border-radius:8px;">
-            <button id="dash-donut-btn-pct" onclick="setDashDonutMode(&#39;pct&#39;)" style="padding:4px 10px;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:&#39;Heebo&#39;,sans-serif;background:var(--accent);color:white;transition:all 0.2s;">%</button>
-            <button id="dash-donut-btn-amt" onclick="setDashDonutMode(&#39;amt&#39;)" style="padding:4px 10px;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:&#39;Heebo&#39;,sans-serif;background:none;color:var(--text2);transition:all 0.2s;">₪</button>
+          <div style="display:flex;gap:4px;align-items:center;">
+            <div style="display:flex;gap:3px;background:var(--surface2);padding:3px;border-radius:8px;">
+              <button id="dash-donut-btn-pct" onclick="setDashDonutMode(&#39;pct&#39;)" style="padding:3px 8px;border:none;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;font-family:&#39;Heebo&#39;,sans-serif;background:var(--accent);color:white;transition:all 0.2s;">%</button>
+              <button id="dash-donut-btn-amt" onclick="setDashDonutMode(&#39;amt&#39;)" style="padding:3px 8px;border:none;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;font-family:&#39;Heebo&#39;,sans-serif;background:none;color:var(--text2);transition:all 0.2s;">₪</button>
+              <button id="donut-view-chart" onclick="setDonutView(&#39;chart&#39;)" style="padding:3px 8px;border:none;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;font-family:&#39;Heebo&#39;,sans-serif;background:none;color:var(--text2);transition:all 0.2s;">🍩</button>
+              <button id="donut-view-table" onclick="setDonutView(&#39;table&#39;)" style="padding:3px 8px;border:none;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;font-family:&#39;Heebo&#39;,sans-serif;background:none;color:var(--text2);transition:all 0.2s;">⊞</button>
+            </div>
           </div>
         </div>
-        <div style="display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap;">
+        <div style="display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
           <button class="filter-tab" id="dash-donut-period-week" onclick="setDashDonutPeriod(&#39;week&#39;,this)" style="font-size:11px;padding:3px 10px;">שבוע</button>
           <button class="filter-tab active" id="dash-donut-period-month" onclick="setDashDonutPeriod(&#39;month&#39;,this)" style="font-size:11px;padding:3px 10px;">חודש</button>
           <button class="filter-tab" id="dash-donut-period-3m" onclick="setDashDonutPeriod(&#39;3m&#39;,this)" style="font-size:11px;padding:3px 10px;">3 חודשים</button>
           <button class="filter-tab" id="dash-donut-period-year" onclick="setDashDonutPeriod(&#39;year&#39;,this)" style="font-size:11px;padding:3px 10px;">שנה</button>
+          <select id="donut-trip-select" onchange="setDonutTripFilter(this.value)" style="font-size:11px;padding:3px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;color:var(--text2);font-family:&#39;Heebo&#39;,sans-serif;cursor:pointer;"><option value="">🗓️ פרק זמן...</option><option value="trip_usa_arg">טיול ארצות הברית / ארגנטינה</option></select>
         </div>
-        <div style="position:relative;width:100%;height:220px;">
-          <canvas id="donutChart" style="position: absolute; top: 0px; left: 0px; width: 302px; height: 220px; box-sizing: border-box; display: block;" width="302" height="220"></canvas>
+        <div id="donut-chart-wrap" style="position:relative;width:100%;height:220px;">
+          <canvas id="donutChart" style="display: block; width: 302px; height: 220px; box-sizing: border-box;" width="302" height="220"></canvas>
+        </div>
+        <div id="donut-table-wrap" style="display:none;max-height:240px;overflow-y:auto;">
+          <table id="donut-table" style="width:100%;border-collapse:collapse;font-size:12px;"></table>
         </div>
       </div>
     </div>
-    <div>
-      <div class="section-header">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
+      <div class="section-header" style="padding:14px 16px;cursor:pointer;margin:0;user-select:none;" onclick="toggleRecentExpenses()">
         <div class="section-title">⚡ הוצאות אחרונות</div>
-        <button class="btn-sm btn-ghost" onclick="switchPage(&#39;expenses&#39;)">הכל ←</button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="btn-sm btn-ghost" onclick="event.stopPropagation();switchPage(&#39;expenses&#39;)" style="font-size:12px;">הכל ←</button>
+          <span id="recent-collapse-icon" style="font-size:16px;color:var(--text3);transition:transform 0.2s;">▲</span>
+        </div>
       </div>
-      <div class="expense-list" id="recent-expenses">
+      <div id="recent-expenses-wrap" style="padding:0 12px 12px;">
+        <div class="expense-list" id="recent-expenses">
     <div class="expense-item" onclick="editExpense(&#39;seed2&#39;)" style="border-color:rgba(106,255,203,0.2);">
       
       <div class="exp-emoji" style="background:#ff9b6a22;">🛒</div>
@@ -1233,6 +1256,7 @@
       <button class="delete-btn" onclick="deleteExpense(event,&#39;1772497922594&#39;)">🗑</button>
     </div>
   </div>
+      </div>
     </div>
   </div>
 
@@ -1465,66 +1489,69 @@
   <!-- CATEGORIES PAGE -->
   <div class="page" id="page-categories">
     <div class="section-header">
-      <div class="section-title">🏷️ קטגוריות</div>
+      <div class="section-title" id="cat-page-title">🏷️ קטגוריות</div>
+      <button class="btn-sm btn-ghost" id="cat-back-btn" style="display:none;font-size:12px;" onclick="closeCategoryDrill()">← חזור</button>
     </div>
-    <div class="categories-grid" id="categories-grid">
-      <div class="category-card">
+    <!-- Overview grid -->
+    <div id="cat-overview">
+      <div class="categories-grid" id="categories-grid">
+      <div class="category-card" onclick="openCategoryDrill(&#39;food&#39;)" style="cursor:pointer;">
         <div class="cat-card-icon">🍔</div>
         <div class="cat-card-name">אוכל בחוץ</div>
         <div class="cat-card-total">$20</div>
         <div class="cat-card-count">1 הוצאות</div>
       </div>
     
-      <div class="category-card">
+      <div class="category-card" onclick="openCategoryDrill(&#39;supermarket&#39;)" style="cursor:pointer;">
         <div class="cat-card-icon">🛒</div>
         <div class="cat-card-name">קניות סופר</div>
         <div class="cat-card-total">$36</div>
         <div class="cat-card-count">1 הוצאות</div>
       </div>
     
-      <div class="category-card">
+      <div class="category-card" onclick="openCategoryDrill(&#39;clothing&#39;)" style="cursor:pointer;">
         <div class="cat-card-icon">👟</div>
         <div class="cat-card-name">ביגוד</div>
         <div class="cat-card-total">$174</div>
         <div class="cat-card-count">2 הוצאות</div>
       </div>
     
-      <div class="category-card">
+      <div class="category-card" onclick="openCategoryDrill(&#39;transport&#39;)" style="cursor:pointer;">
         <div class="cat-card-icon">🚗</div>
         <div class="cat-card-name">תחבורה</div>
         <div class="cat-card-total">$58</div>
         <div class="cat-card-count">2 הוצאות</div>
       </div>
     
-      <div class="category-card">
+      <div class="category-card" onclick="openCategoryDrill(&#39;health&#39;)" style="cursor:pointer;">
         <div class="cat-card-icon">💊</div>
         <div class="cat-card-name">בריאות</div>
         <div class="cat-card-total">$0</div>
         <div class="cat-card-count">0 הוצאות</div>
       </div>
     
-      <div class="category-card">
+      <div class="category-card" onclick="openCategoryDrill(&#39;entertainment&#39;)" style="cursor:pointer;">
         <div class="cat-card-icon">🎬</div>
         <div class="cat-card-name">בידור</div>
         <div class="cat-card-total">$0</div>
         <div class="cat-card-count">0 הוצאות</div>
       </div>
     
-      <div class="category-card">
+      <div class="category-card" onclick="openCategoryDrill(&#39;bills&#39;)" style="cursor:pointer;">
         <div class="cat-card-icon">📱</div>
         <div class="cat-card-name">חשבונות</div>
         <div class="cat-card-total">$0</div>
         <div class="cat-card-count">0 הוצאות</div>
       </div>
     
-      <div class="category-card">
+      <div class="category-card" onclick="openCategoryDrill(&#39;cafe&#39;)" style="cursor:pointer;">
         <div class="cat-card-icon">☕</div>
         <div class="cat-card-name">קפה</div>
         <div class="cat-card-total">$15</div>
         <div class="cat-card-count">1 הוצאות</div>
       </div>
     
-      <div class="category-card">
+      <div class="category-card" onclick="openCategoryDrill(&#39;other&#39;)" style="cursor:pointer;">
         <div class="cat-card-icon">📦</div>
         <div class="cat-card-name">אחר</div>
         <div class="cat-card-total">$0</div>
@@ -1536,6 +1563,24 @@
       <div style="font-size:14px; font-weight:700;">קטגוריה חדשה</div>
     </div>
   </div>
+    </div>
+    <!-- Drill-down: expenses for one category -->
+    <div id="cat-drill" style="display:none;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <span style="font-size:12px;font-weight:700;color:var(--text2);">📅 סינון תאריך:</span>
+        <input type="date" class="form-input" id="cat-date-from" style="width:130px;font-size:13px;padding:6px 10px;" onchange="renderCatDrill()">
+        <span style="color:var(--text3);">—</span>
+        <input type="date" class="form-input" id="cat-date-to" style="width:130px;font-size:13px;padding:6px 10px;" onchange="renderCatDrill()">
+        <button class="btn-sm btn-ghost" onclick="resetCatDrillDates()" style="font-size:12px;">הכל</button>
+        <div style="margin-right:auto;display:flex;gap:4px;">
+          <button id="cat-view-list-btn" onclick="setCatDrillView(&#39;list&#39;)" style="padding:5px 10px;border:none;border-radius:6px;background:var(--accent);color:white;font-size:11px;font-weight:700;cursor:pointer;font-family:&#39;Heebo&#39;,sans-serif;">☰</button>
+          <button id="cat-view-table-btn" onclick="setCatDrillView(&#39;table&#39;)" style="padding:5px 10px;border:none;border-radius:6px;background:none;color:var(--text2);font-size:11px;font-weight:700;cursor:pointer;font-family:&#39;Heebo&#39;,sans-serif;">⊞</button>
+        </div>
+      </div>
+      <div id="cat-drill-summary" style="font-size:13px;color:var(--text2);margin-bottom:12px;padding:10px 14px;background:var(--surface2);border-radius:10px;"></div>
+      <div id="cat-drill-list" class="expense-list"></div>
+      <div id="cat-drill-table"></div>
+    </div>
   </div>
 
   <!-- CASH PAGE -->
@@ -1754,6 +1799,13 @@
       </div>
 
       <div class="form-group">
+        <label class="form-label">🗓️ פרק זמן</label>
+        <select class="form-select" id="exp-trip">
+          <option value="">— ללא שיוך —</option>
+        </select>
+      </div>
+
+      <div class="form-group">
         <label class="form-label">שיטת תשלום</label>
         <div class="payment-grid" id="payment-picker"></div>
       </div>
@@ -1960,10 +2012,10 @@
 
       <!-- Trip / Period -->
       <div class="settings-section">
-        <div class="settings-section-title">🗺️ תקופה / טיול פעיל</div>
+        <div class="settings-section-title">🗓️ פרק זמן פעיל</div>
         <div class="form-group">
           <label class="form-label">שם התקופה</label>
-          <input type="text" class="form-input" id="s-trip-name" placeholder="למשל: טיול ארצות הברית / ארגנטינה">
+          <input type="text" class="form-input" id="s-trip-name" placeholder="שם פרק הזמן">
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -2034,7 +2086,8 @@ let state = {
     activeTripId: 'trip_usa_arg',
   },
   trips: [
-    { id: 'trip_usa_arg', name: 'טיול ארצות הברית / ארגנטינה', start: '', end: '' },
+    { id: 'trip_usa_arg', name: 'ארה"ב / ארגנטינה', start: '', end: '' },
+    { id: 'trip_costa', name: '🌴 קוסטה ריקה', start: '', end: '' },
   ],
 };
 
@@ -2069,7 +2122,10 @@ function load() {
       if (!shoppingUsed) state.categories = state.categories.filter(c => c.id !== 'shopping');
       // Ensure trips array
       if (!state.trips || !state.trips.length) {
-        state.trips = [{ id: 'trip_usa_arg', name: 'טיול ארצות הברית / ארגנטינה', start: '', end: '' }];
+        state.trips = [
+          { id: 'trip_usa_arg', name: 'ארה"ב / ארגנטינה', start: '', end: '' },
+          { id: 'trip_costa', name: '🌴 קוסטה ריקה', start: '', end: '' }
+        ];
       }
       // Ensure bankAccounts
       if (!state.bankAccounts) state.bankAccounts = ['לאומי', 'פועלים', 'דיסקונט', 'מזרחי', 'ביט', 'פייבוקס'];
@@ -2189,6 +2245,7 @@ function render() {
   renderCashPage();
   renderCharts();
   renderStats();
+  populateTripSelects();
 }
 
 function renderTripBadge() {
@@ -2312,6 +2369,15 @@ function renderExpenseItem(e, showDelete = true) {
       ${!multiSelectMode && showDelete ? `<button class="delete-btn" onclick="deleteExpense(event,'${e.id}')">🗑</button>` : ''}
     </div>
   `;
+}
+
+let recentExpanded = true;
+function toggleRecentExpenses() {
+  recentExpanded = !recentExpanded;
+  const wrap = document.getElementById('recent-expenses-wrap');
+  const icon = document.getElementById('recent-collapse-icon');
+  wrap.style.display = recentExpanded ? 'block' : 'none';
+  icon.style.transform = recentExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
 }
 
 function renderRecentExpenses() {
@@ -2608,13 +2674,17 @@ function setExpenseFilter(f) {
   renderAllExpenses();
 }
 
+let catDrillId = null;
+let catDrillView = 'list';
+
 function renderCategoriesPage() {
   const el = document.getElementById('categories-grid');
+  if (!el) return;
   const catHtml = state.categories.map(cat => {
     const catExpenses = state.expenses.filter(e => e.category === cat.id && (e.currency === 'USD' || !e.currency));
     const total = catExpenses.reduce((s, e) => s + parseFloat(e.amount), 0);
     return `
-      <div class="category-card">
+      <div class="category-card" onclick="openCategoryDrill('${cat.id}')" style="cursor:pointer;">
         <div class="cat-card-icon">${cat.emoji}</div>
         <div class="cat-card-name">${cat.name}</div>
         <div class="cat-card-total">${formatAmount(total)}</div>
@@ -2622,13 +2692,78 @@ function renderCategoriesPage() {
       </div>
     `;
   }).join('');
-
   el.innerHTML = catHtml + `
     <div class="add-category-card" onclick="openAddCategoryModal()">
       <div style="font-size:32px;">＋</div>
       <div style="font-size:14px; font-weight:700;">קטגוריה חדשה</div>
     </div>
   `;
+}
+
+function openCategoryDrill(catId) {
+  catDrillId = catId;
+  catDrillView = 'list';
+  document.getElementById('cat-overview').style.display = 'none';
+  document.getElementById('cat-drill').style.display = 'block';
+  document.getElementById('cat-back-btn').style.display = 'inline-flex';
+  document.getElementById('cat-date-from').value = '';
+  document.getElementById('cat-date-to').value = '';
+  const cat = state.categories.find(c => c.id === catId);
+  document.getElementById('cat-page-title').textContent = `${cat?.emoji || ''} ${cat?.name || ''}`;
+  renderCatDrill();
+}
+
+function closeCategoryDrill() {
+  catDrillId = null;
+  document.getElementById('cat-overview').style.display = 'block';
+  document.getElementById('cat-drill').style.display = 'none';
+  document.getElementById('cat-back-btn').style.display = 'none';
+  document.getElementById('cat-page-title').textContent = '🏷️ קטגוריות';
+  renderCategoriesPage();
+}
+
+function resetCatDrillDates() {
+  document.getElementById('cat-date-from').value = '';
+  document.getElementById('cat-date-to').value = '';
+  renderCatDrill();
+}
+
+function setCatDrillView(v) {
+  catDrillView = v;
+  document.getElementById('cat-view-list-btn').style.background = v==='list' ? 'var(--accent)' : 'none';
+  document.getElementById('cat-view-list-btn').style.color = v==='list' ? 'white' : 'var(--text2)';
+  document.getElementById('cat-view-table-btn').style.background = v==='table' ? 'var(--accent)' : 'none';
+  document.getElementById('cat-view-table-btn').style.color = v==='table' ? 'white' : 'var(--text2)';
+  renderCatDrill();
+}
+
+function renderCatDrill() {
+  if (!catDrillId) return;
+  const defCur = state.settings?.defaultCurrency || 'USD';
+  const fromVal = document.getElementById('cat-date-from')?.value || '';
+  const toVal   = document.getElementById('cat-date-to')?.value   || '';
+  let expenses = state.expenses.filter(e => e.category === catDrillId && (e.currency||'USD') === defCur);
+  if (fromVal) expenses = expenses.filter(e => e.date >= fromVal);
+  if (toVal)   expenses = expenses.filter(e => e.date <= toVal);
+  expenses.sort((a,b) => new Date(b.date) - new Date(a.date));
+
+  const total = expenses.reduce((s,e) => s+parseFloat(e.amount), 0);
+  const sym = CURRENCY_SYMBOLS[defCur] || '$';
+  document.getElementById('cat-drill-summary').innerHTML =
+    `<strong>${expenses.length}</strong> הוצאות · סה"כ: <strong style="color:var(--accent);">${sym}${total.toLocaleString()}</strong>`;
+
+  const listEl  = document.getElementById('cat-drill-list');
+  const tableEl = document.getElementById('cat-drill-table');
+  listEl.style.display  = catDrillView === 'list'  ? 'block' : 'none';
+  tableEl.style.display = catDrillView === 'table' ? 'block' : 'none';
+
+  if (catDrillView === 'list') {
+    listEl.innerHTML = expenses.length
+      ? expenses.map(e => renderExpenseItem(e)).join('')
+      : '<div class="no-expenses">אין הוצאות בטווח זה</div>';
+  } else {
+    tableEl.innerHTML = expenses.length ? renderExpenseTable(expenses) : '<div class="no-expenses">אין הוצאות בטווח זה</div>';
+  }
 }
 
 function renderCashPage() {
@@ -2671,36 +2806,168 @@ function renderCharts() {
   setTimeout(() => { renderLineChart(); renderDonutChart(); }, 150);
 }
 
+let lineView = 'chart';
+let donutView = 'chart';
+
+let lineTripFilter = '';
+let donutTripFilter = '';
+
+function populateTripSelects() {
+  const trips = state.trips || [];
+  const opts = '<option value="">🗓️ פרק זמן...</option>' + trips.map(t=>`<option value="${t.id}">${t.name}</option>`).join('');
+  const ls = document.getElementById('line-trip-select');
+  const ds = document.getElementById('donut-trip-select');
+  if (ls) ls.innerHTML = opts;
+  if (ds) ds.innerHTML = opts;
+}
+
+function setLineTripFilter(tripId) {
+  lineTripFilter = tripId;
+  // deactivate period buttons
+  if (tripId) [7,30,90,365].forEach(d => document.getElementById('line-period-'+d)?.classList.remove('active'));
+  if (lineView === 'chart') renderLineChart();
+  else renderLineTable();
+}
+
+function setDonutTripFilter(tripId) {
+  donutTripFilter = tripId;
+  if (tripId) ['week','month','3m','year'].forEach(p => document.getElementById('dash-donut-period-'+p)?.classList.remove('active'));
+  if (donutView === 'chart') renderDonutChart();
+  else renderDonutTable();
+}
+
+function setLineView(v) {
+  lineView = v;
+  document.getElementById('line-chart-wrap').style.display = v === 'chart' ? 'block' : 'none';
+  document.getElementById('line-table-wrap').style.display = v === 'table' ? 'block' : 'none';
+  const cb = document.getElementById('line-view-chart');
+  const tb = document.getElementById('line-view-table');
+  if (cb) { cb.style.background = v==='chart' ? 'var(--accent)' : 'none'; cb.style.color = v==='chart' ? 'white' : 'var(--text2)'; }
+  if (tb) { tb.style.background = v==='table' ? 'var(--accent)' : 'none'; tb.style.color = v==='table' ? 'white' : 'var(--text2)'; }
+  if (v === 'chart') setTimeout(() => renderLineChart(), 50);
+  else renderLineTable();
+}
+
+function setDonutView(v) {
+  donutView = v;
+  document.getElementById('donut-chart-wrap').style.display = v === 'chart' ? 'block' : 'none';
+  document.getElementById('donut-table-wrap').style.display = v === 'table' ? 'block' : 'none';
+  const cb = document.getElementById('donut-view-chart');
+  const tb = document.getElementById('donut-view-table');
+  if (cb) { cb.style.background = v==='chart' ? 'var(--accent)' : 'none'; cb.style.color = v==='chart' ? 'white' : 'var(--text2)'; }
+  if (tb) { tb.style.background = v==='table' ? 'var(--accent)' : 'none'; tb.style.color = v==='table' ? 'white' : 'var(--text2)'; }
+  if (v === 'chart') setTimeout(() => renderDonutChart(), 50);
+  else renderDonutTable();
+}
+
+function renderLineTable() {
+  const defCur = state.settings?.defaultCurrency || 'USD';
+  const days = linePeriodDays;
+  const rows = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const dateStr = d.toISOString().split('T')[0];
+    const label = i === 0 ? 'היום' : d.toLocaleDateString('he-IL', {day:'2-digit',month:'2-digit'});
+    const total = state.expenses.filter(e => e.date === dateStr && (e.currency||'USD') === defCur).reduce((s,e)=>s+parseFloat(e.amount),0);
+    if (total > 0) rows.push({label, total, dateStr});
+  }
+  const sym = CURRENCY_SYMBOLS[defCur] || '$';
+  const tableEl = document.getElementById('line-table');
+  if (!tableEl) return;
+  tableEl.innerHTML = `
+    <thead><tr style="border-bottom:1px solid var(--border);">
+      <th style="padding:6px 8px;text-align:right;color:var(--text2);font-size:11px;">תאריך</th>
+      <th style="padding:6px 8px;text-align:left;color:var(--text2);font-size:11px;">סכום</th>
+    </tr></thead>
+    <tbody>${rows.length ? rows.map(r=>`
+      <tr style="border-bottom:1px solid var(--border)20;">
+        <td style="padding:6px 8px;color:var(--text);font-size:12px;">${r.label}</td>
+        <td style="padding:6px 8px;color:var(--accent);font-size:12px;text-align:left;font-weight:700;">${sym}${r.total.toLocaleString()}</td>
+      </tr>`).join('') : '<tr><td colspan="2" style="padding:16px;text-align:center;color:var(--text3);">אין נתונים</td></tr>'}
+    </tbody>`;
+}
+
+function renderDonutTable() {
+  const defCur = state.settings?.defaultCurrency || 'USD';
+  let expenses = state.expenses.filter(e => (e.currency||'USD') === defCur);
+  const now = new Date();
+  if (dashDonutPeriod === 'week') { const c=new Date(); c.setDate(c.getDate()-7); expenses=expenses.filter(e=>new Date(e.date+'T00:00:00')>=c); }
+  else if (dashDonutPeriod === 'month') { const c=new Date(); c.setDate(1); expenses=expenses.filter(e=>new Date(e.date+'T00:00:00')>=c); }
+  else if (dashDonutPeriod === '3m') { const c=new Date(); c.setMonth(c.getMonth()-3); expenses=expenses.filter(e=>new Date(e.date+'T00:00:00')>=c); }
+  else if (dashDonutPeriod === 'year') { const c=new Date(now.getFullYear(),0,1); expenses=expenses.filter(e=>new Date(e.date+'T00:00:00')>=c); }
+
+  const grandTotal = expenses.reduce((s,e)=>s+parseFloat(e.amount),0);
+  const catData = state.categories.map(cat=>({
+    cat, total: expenses.filter(e=>e.category===cat.id).reduce((s,e)=>s+parseFloat(e.amount),0)
+  })).filter(c=>c.total>0).sort((a,b)=>b.total-a.total);
+
+  const sym = CURRENCY_SYMBOLS[defCur] || '$';
+  const tableEl = document.getElementById('donut-table');
+  if (!tableEl) return;
+  tableEl.innerHTML = `
+    <thead><tr style="border-bottom:1px solid var(--border);">
+      <th style="padding:6px 8px;text-align:right;color:var(--text2);font-size:11px;">קטגוריה</th>
+      <th style="padding:6px 8px;text-align:left;color:var(--text2);font-size:11px;">${dashDonutMode==='pct'?'%':'סכום'}</th>
+    </tr></thead>
+    <tbody>${catData.map(r=>{
+      const pct = grandTotal>0 ? Math.round(r.total/grandTotal*100) : 0;
+      return `<tr style="border-bottom:1px solid var(--border)20;">
+        <td style="padding:6px 8px;font-size:12px;"><span style="color:${r.cat.color}">${r.cat.emoji}</span> ${r.cat.name}</td>
+        <td style="padding:6px 8px;font-size:12px;text-align:left;font-weight:700;color:${r.cat.color};">${dashDonutMode==='pct'?pct+'%':sym+r.total.toLocaleString()}</td>
+      </tr>`;
+    }).join('')}
+    <tr style="border-top:2px solid var(--border);font-weight:700;">
+      <td style="padding:6px 8px;font-size:12px;color:var(--text);">סה"כ</td>
+      <td style="padding:6px 8px;font-size:12px;text-align:left;color:var(--text);">${dashDonutMode==='pct'?'100%':sym+grandTotal.toLocaleString()}</td>
+    </tr></tbody>`;
+}
+
+
 function setLinePeriod(days, btn) {
   linePeriodDays = days;
+  lineTripFilter = '';
+  const ls = document.getElementById('line-trip-select');
+  if (ls) ls.value = '';
   [7, 30, 90, 365].forEach(d => {
     const b = document.getElementById('line-period-' + d);
     if (b) b.classList.toggle('active', d === days);
   });
-  renderLineChart();
+  if (lineView === 'chart') renderLineChart();
+  else renderLineTable();
 }
 
 function updateChart() { renderLineChart(); }
 
 function renderLineChart() {
-  const days = linePeriodDays;
   const defCur = state.settings?.defaultCurrency || 'USD';
   const labels = [], data = [];
 
-  for (let i = days - 1; i >= 0; i--) {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    const dateStr = d.toISOString().split('T')[0];
-    const dayLabel = i === 0 ? 'היום' : d.toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit' });
-    labels.push(dayLabel);
-    const total = state.expenses
-      .filter(e => e.date === dateStr && (e.currency || 'USD') === defCur)
-      .reduce((s, e) => s + parseFloat(e.amount), 0);
-    data.push(total);
+  if (lineTripFilter) {
+    // Show all expenses for selected trip grouped by date
+    const tripExp = state.expenses.filter(e => e.tripId === lineTripFilter && (e.currency||'USD') === defCur);
+    const dates = [...new Set(tripExp.map(e=>e.date))].sort();
+    dates.forEach(dateStr => {
+      labels.push(new Date(dateStr+'T00:00:00').toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit'}));
+      data.push(tripExp.filter(e=>e.date===dateStr).reduce((s,e)=>s+parseFloat(e.amount),0));
+    });
+  } else {
+    const days = linePeriodDays;
+    for (let i = days - 1; i >= 0; i--) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      labels.push(i === 0 ? 'היום' : d.toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit'}));
+      data.push(state.expenses.filter(e=>e.date===dateStr&&(e.currency||'USD')===defCur).reduce((s,e)=>s+parseFloat(e.amount),0));
+    }
   }
 
   const canvasEl = document.getElementById('lineChart');
   if (!canvasEl) return;
+  const wrap = document.getElementById('line-chart-wrap');
+  const w = wrap ? wrap.offsetWidth : 300;
+  canvasEl.width  = w;
+  canvasEl.height = 160;
+  canvasEl.style.width  = w + 'px';
+  canvasEl.style.height = '160px';
   const ctx = canvasEl.getContext('2d');
   if (lineChartInstance) { try { lineChartInstance.destroy(); } catch(e){} lineChartInstance = null; }
 
@@ -2720,8 +2987,8 @@ function renderLineChart() {
       }]
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      responsive: false,
+      animation: false,
       plugins: { legend: { display: false } },
       scales: {
         x: {
@@ -2749,31 +3016,39 @@ function setDashDonutMode(mode) {
 
 function setDashDonutPeriod(period, btn) {
   dashDonutPeriod = period;
+  donutTripFilter = '';
+  const ds = document.getElementById('donut-trip-select');
+  if (ds) ds.value = '';
   ['week','month','3m','year'].forEach(p => {
     const b = document.getElementById('dash-donut-period-' + p);
     if (b) b.classList.toggle('active', p === period);
   });
-  renderDonutChart();
+  if (donutView === 'chart') renderDonutChart();
+  else renderDonutTable();
 }
 
 function renderDonutChart() {
   const defCur = state.settings?.defaultCurrency || 'USD';
 
-  // Filter by period
+  // Filter by trip OR period
   let expenses = state.expenses.filter(e => (e.currency || 'USD') === defCur);
-  const now = new Date();
-  if (dashDonutPeriod === 'week') {
-    const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 7); cutoff.setHours(0,0,0,0);
-    expenses = expenses.filter(e => new Date(e.date+'T00:00:00') >= cutoff);
-  } else if (dashDonutPeriod === 'month') {
-    const cutoff = new Date(); cutoff.setDate(1); cutoff.setHours(0,0,0,0);
-    expenses = expenses.filter(e => new Date(e.date+'T00:00:00') >= cutoff);
-  } else if (dashDonutPeriod === '3m') {
-    const cutoff = new Date(); cutoff.setMonth(cutoff.getMonth() - 3); cutoff.setHours(0,0,0,0);
-    expenses = expenses.filter(e => new Date(e.date+'T00:00:00') >= cutoff);
-  } else if (dashDonutPeriod === 'year') {
-    const cutoff = new Date(now.getFullYear(), 0, 1);
-    expenses = expenses.filter(e => new Date(e.date+'T00:00:00') >= cutoff);
+  if (donutTripFilter) {
+    expenses = expenses.filter(e => e.tripId === donutTripFilter);
+  } else {
+    const now = new Date();
+    if (dashDonutPeriod === 'week') {
+      const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 7); cutoff.setHours(0,0,0,0);
+      expenses = expenses.filter(e => new Date(e.date+'T00:00:00') >= cutoff);
+    } else if (dashDonutPeriod === 'month') {
+      const cutoff = new Date(); cutoff.setDate(1); cutoff.setHours(0,0,0,0);
+      expenses = expenses.filter(e => new Date(e.date+'T00:00:00') >= cutoff);
+    } else if (dashDonutPeriod === '3m') {
+      const cutoff = new Date(); cutoff.setMonth(cutoff.getMonth() - 3); cutoff.setHours(0,0,0,0);
+      expenses = expenses.filter(e => new Date(e.date+'T00:00:00') >= cutoff);
+    } else if (dashDonutPeriod === 'year') {
+      const cutoff = new Date(now.getFullYear(), 0, 1);
+      expenses = expenses.filter(e => new Date(e.date+'T00:00:00') >= cutoff);
+    }
   }
 
   const catData = state.categories.map(cat => ({
@@ -2784,9 +3059,16 @@ function renderDonutChart() {
 
   const canvasEl = document.getElementById('donutChart');
   if (!canvasEl) return;
+  const wrap = document.getElementById('donut-chart-wrap');
+  const w = wrap ? wrap.offsetWidth : 300;
+  const h = 220;
+  canvasEl.width  = w;
+  canvasEl.height = h;
+  canvasEl.style.width  = w + 'px';
+  canvasEl.style.height = h + 'px';
   const ctx = canvasEl.getContext('2d');
   if (donutChartInstance) { try { donutChartInstance.destroy(); } catch(e){} donutChartInstance = null; }
-  if (!catData.length) { ctx.clearRect(0, 0, canvasEl.width, canvasEl.height); return; }
+  if (!catData.length) { ctx.clearRect(0, 0, w, h); return; }
 
   const grandTotal = catData.reduce((s,c) => s + c.total, 0);
 
@@ -2829,7 +3111,7 @@ function renderDonutChart() {
       }]
     },
     options: {
-      responsive: true, maintainAspectRatio: false, cutout: '55%',
+      responsive: false, animation: false, maintainAspectRatio: false, cutout: '55%',
       plugins: {
         legend: { position: 'bottom', labels: { color: '#9e9bbb', font: { size: 11, family: 'Heebo' }, padding: 10, boxWidth: 12 } },
         tooltip: { callbacks: { label: (ctx) => {
@@ -2853,6 +3135,13 @@ function openExpenseModal(id = null) {
   renderCatPicker();
   renderPaymentPicker();
 
+  // Populate trip selector
+  const tripSel = document.getElementById('exp-trip');
+  if (tripSel) {
+    tripSel.innerHTML = '<option value="">— ללא שיוך —</option>' +
+      (state.trips || []).map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+  }
+
   if (id) {
     const e = state.expenses.find(x => x.id === id);
     if (e) {
@@ -2861,6 +3150,7 @@ function openExpenseModal(id = null) {
       document.getElementById('exp-currency').value = e.currency || state.settings.defaultCurrency || 'USD';
       document.getElementById('exp-desc').value = e.desc || '';
       document.getElementById('exp-place').value = e.place || '';
+      if (tripSel) tripSel.value = e.tripId || '';
       updateCurrencySymbol();
       state.selectedCategory = e.category;
       state.selectedPayment = e.payment;
@@ -2876,6 +3166,7 @@ function openExpenseModal(id = null) {
     document.getElementById('curr-symbol').textContent = CURRENCY_SYMBOLS[defCur] || '$';
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('exp-date').value = today;
+    if (tripSel) tripSel.value = state.settings?.activeTripId || '';
     state.selectedCategory = null;
     state.selectedPayment = state.settings?.defaultPayment || null;
     renderCatPicker();
@@ -2935,6 +3226,7 @@ function saveExpense() {
   const currency = document.getElementById('exp-currency').value;
   const desc = document.getElementById('exp-desc').value.trim();
   const place = document.getElementById('exp-place').value.trim();
+  const tripId = document.getElementById('exp-trip')?.value || state.settings?.activeTripId || null;
 
   if (!amount || amount <= 0) { showToast('⚠️ נא להזין סכום'); return; }
   if (!date) { showToast('⚠️ נא לבחור תאריך'); return; }
@@ -2943,7 +3235,7 @@ function saveExpense() {
   if (state.editingId) {
     const idx = state.expenses.findIndex(e => e.id === state.editingId);
     if (idx !== -1) {
-      state.expenses[idx] = { ...state.expenses[idx], amount, date, currency, desc, place, category: state.selectedCategory, payment: state.selectedPayment || 'לא צוין' };
+      state.expenses[idx] = { ...state.expenses[idx], amount, date, currency, desc, place, category: state.selectedCategory, payment: state.selectedPayment || 'לא צוין', tripId };
     }
   } else {
     state.expenses.push({
@@ -2951,7 +3243,7 @@ function saveExpense() {
       amount, date, currency, desc, place,
       category: state.selectedCategory,
       payment: state.selectedPayment || 'לא צוין',
-      tripId: state.settings?.activeTripId || null,
+      tripId,
       createdAt: new Date().toISOString()
     });
   }
@@ -3752,7 +4044,7 @@ function renderSavedTrips() {
     <div class="period-pill ${t.id === active ? 'active' : ''}" onclick="setActiveTrip('${t.id}')">
       ✈️ ${t.name}
     </div>
-  `).join('') + `<button class="period-pill" onclick="addNewTrip()" style="border-style:dashed;">+ טיול חדש</button>`;
+  `).join('') + `<button class="period-pill" onclick="addNewTrip()" style="border-style:dashed;">+ פרק זמן חדש</button>`;
 }
 
 function setActiveTrip(id) {
@@ -3770,7 +4062,7 @@ function addNewTrip() {
   const id = 'trip_' + Date.now();
   state.trips.push({ id, name: 'טיול חדש', start: '', end: '' });
   state.settings.activeTripId = id;
-  document.getElementById('s-trip-name').value = 'טיול חדש';
+  document.getElementById('s-trip-name').value = 'פרק זמן חדש';
   document.getElementById('s-trip-start').value = '';
   document.getElementById('s-trip-end').value = '';
   renderSavedTrips();
