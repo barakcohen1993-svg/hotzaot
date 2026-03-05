@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0046)file:///C:/Users/eli01/Downloads/index_10.html -->
+<!-- saved from url=(0046)file:///C:/Users/eli01/Downloads/index_11.html -->
 <html lang="he" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -1071,8 +1071,8 @@
           <button class="filter-tab" id="line-period-90" onclick="setLinePeriod(90,this)" style="font-size:11px;padding:3px 10px;">3 חודשים</button>
           <button class="filter-tab" id="line-period-365" onclick="setLinePeriod(365,this)" style="font-size:11px;padding:3px 10px;">שנה</button>
         </div>
-        <div class="chart-canvas-wrap">
-          <canvas id="lineChart" style="box-sizing: border-box; display: block; height: 160px; width: 646px;" width="646" height="160"></canvas>
+        <div style="position:relative;width:100%;height:160px;">
+          <canvas id="lineChart" style="position: absolute; top: 0px; left: 0px; width: 646px; height: 160px; box-sizing: border-box; display: block;" width="646" height="160"></canvas>
         </div>
       </div>
       <div class="chart-card">
@@ -1089,8 +1089,8 @@
           <button class="filter-tab" id="dash-donut-period-3m" onclick="setDashDonutPeriod(&#39;3m&#39;,this)" style="font-size:11px;padding:3px 10px;">3 חודשים</button>
           <button class="filter-tab" id="dash-donut-period-year" onclick="setDashDonutPeriod(&#39;year&#39;,this)" style="font-size:11px;padding:3px 10px;">שנה</button>
         </div>
-        <div class="chart-canvas-wrap" style="height:200px;">
-          <canvas id="donutChart" style="box-sizing: border-box; display: block; height: 200px; width: 302px;" width="302" height="200"></canvas>
+        <div style="position:relative;width:100%;height:220px;">
+          <canvas id="donutChart" style="position: absolute; top: 0px; left: 0px; width: 302px; height: 220px; box-sizing: border-box; display: block;" width="302" height="220"></canvas>
         </div>
       </div>
     </div>
@@ -1618,7 +1618,9 @@
       <div class="chart-header">
         <div class="chart-title" id="stats-bar-title">📊 הוצאות יומיות — 14 ימים אחרונים</div>
       </div>
-      <canvas id="statsBarChart" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+      <div style="position:relative;width:100%;height:160px;">
+        <canvas id="statsBarChart" style="position: absolute; top: 0px; left: 0px; width: 0px; height: 0px; display: block; box-sizing: border-box;" height="0" width="0"></canvas>
+      </div>
     </div>
 
     <!-- Donut + top categories side by side -->
@@ -1639,7 +1641,9 @@
           <button class="filter-tab" id="donut-period-month" onclick="setDonutPeriod(&#39;month&#39;,this)" style="font-size:11px;padding:4px 10px;">חודש</button>
           <button class="filter-tab" id="donut-period-year" onclick="setDonutPeriod(&#39;year&#39;,this)" style="font-size:11px;padding:4px 10px;">שנה</button>
         </div>
-        <canvas id="statsDonutChart" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+        <div style="position:relative;width:100%;height:260px;">
+          <canvas id="statsDonutChart" style="position: absolute; top: 0px; left: 0px; width: 0px; height: 0px; display: block; box-sizing: border-box;" height="0" width="0"></canvas>
+        </div>
       </div>
       <div class="chart-card">
         <div class="chart-header"><div class="chart-title">🏆 קטגוריות מובילות</div></div>
@@ -3608,7 +3612,7 @@ function renderStats() {
     statsBarChartInstance = new Chart(barCtx.getContext('2d'), {
       type: 'bar',
       data: { labels, datasets: [{ data, backgroundColor: data.map((_,i)=>i===data.length-1?'rgba(124,106,255,0.9)':'rgba(124,106,255,0.4)'), borderRadius:6, borderSkipped:false }] },
-      options: { responsive:true, plugins:{legend:{display:false}}, scales:{ x:{ticks:{color:'#5e5b7a',font:{size:10,family:'Heebo'}},grid:{color:'#2e2e3e'}}, y:{ticks:{color:'#5e5b7a',font:{size:10,family:'Heebo'}},grid:{color:'#2e2e3e'}} } }
+      options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ x:{ticks:{color:'#5e5b7a',font:{size:10,family:'Heebo'}},grid:{color:'#2e2e3e'}}, y:{ticks:{color:'#5e5b7a',font:{size:10,family:'Heebo'}},grid:{color:'#2e2e3e'}} } }
     });
   }
 
@@ -3661,7 +3665,7 @@ function renderStatsDonut(expToUse, defCur) {
           datasets:[{ data:catData.map(c=>c.total), backgroundColor:catData.map(c=>c.color), borderWidth: 2, borderColor: 'rgba(15,15,19,0.8)', hoverOffset:6 }]
         },
         options: {
-          responsive:true, cutout:'55%',
+          responsive:true, maintainAspectRatio:false, cutout:'55%',
           animation: { animateRotate: true, duration: 600 },
           plugins: {
             legend:{ position:'bottom', labels:{ color:'#9e9bbb', font:{size:11,family:'Heebo'}, padding:10, boxWidth:10 } },
