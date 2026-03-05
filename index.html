@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0055)file:///C:/Users/eli01/Downloads/expense-tracker_8.html -->
+<!-- saved from url=(0056)file:///C:/Users/eli01/Downloads/expense-tracker_10.html -->
 <html lang="he" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -1035,9 +1035,9 @@
     </div>
   
     <div class="stat-card">
-      <div class="stat-label">סה"כ הוצאות</div>
-      <div class="stat-value" style="color:var(--accent4)">7</div>
-      <div class="stat-sub">כל הזמן</div>
+      <div class="stat-label">🌴 קוסטה ריקה</div>
+      <div class="stat-value" style="color:#ff9b6a">$0</div>
+      <div class="stat-sub">0 הוצאות</div>
     </div>
   </div>
     <div class="cash-banner" id="cash-banner">
@@ -2095,11 +2095,16 @@ function renderSummaryCards() {
   const defCur = state.settings?.defaultCurrency || 'USD';
   const sumCur = arr => arr.filter(e => (e.currency || 'USD') === defCur).reduce((s, e) => s + parseFloat(e.amount), 0);
 
+  const costaExp = state.expenses.filter(e => {
+    const trip = state.trips?.find(t => t.id === e.tripId);
+    return trip && (trip.name.includes('קוסטה') || trip.name.toLowerCase().includes('costa'));
+  });
+
   const cards = [
     { label: 'היום', value: formatAmount(sumCur(todayExp), defCur), sub: `${todayExp.length} הוצאות`, color: 'var(--accent)' },
     { label: 'שבוע אחרון', value: formatAmount(sumCur(weekExp), defCur), sub: `${weekExp.length} הוצאות`, color: 'var(--accent2)' },
     { label: 'חודש אחרון', value: formatAmount(sumCur(monthExp), defCur), sub: `${monthExp.length} הוצאות`, color: 'var(--accent3)' },
-    { label: 'סה"כ הוצאות', value: state.expenses.length.toString(), sub: 'כל הזמן', color: 'var(--accent4)' },
+    { label: '🌴 קוסטה ריקה', value: formatAmount(sumCur(costaExp), defCur), sub: `${costaExp.length} הוצאות`, color: '#ff9b6a' },
   ];
 
   document.getElementById('summary-cards').innerHTML = cards.map(c => `
