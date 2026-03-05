@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0045)file:///C:/Users/eli01/Downloads/index_1.html -->
+<!-- saved from url=(0045)file:///C:/Users/eli01/Downloads/index_3.html -->
 <html lang="he" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -1016,28 +1016,28 @@
   <div class="page active" id="page-dashboard">
     <div id="trip-badge-wrap"><div class="trip-badge" onclick="openSettingsModal()">✈️ טיול ארצות הברית / ארגנטינה <span style="opacity:0.5;font-size:11px;">⚙</span></div></div>
     <div class="summary-grid" id="summary-cards">
-    <div class="stat-card">
+    <div class="stat-card" style="">
       <div class="stat-label">היום</div>
-      <div class="stat-value" style="color:var(--accent)">$0</div>
+      <div class="stat-value" style="color:var(--accent);">$0</div>
       <div class="stat-sub">0 הוצאות</div>
     </div>
   
-    <div class="stat-card">
+    <div class="stat-card" style="">
       <div class="stat-label">שבוע אחרון</div>
-      <div class="stat-value" style="color:var(--accent2)">$303</div>
+      <div class="stat-value" style="color:var(--accent2);">$303</div>
       <div class="stat-sub">7 הוצאות</div>
     </div>
   
-    <div class="stat-card">
-      <div class="stat-label">חודש אחרון</div>
-      <div class="stat-value" style="color:var(--accent3)">$303</div>
-      <div class="stat-sub">7 הוצאות</div>
-    </div>
-  
-    <div class="stat-card">
+    <div class="stat-card" style="">
       <div class="stat-label">🌴 קוסטה ריקה</div>
-      <div class="stat-value" style="color:#ff9b6a">$0</div>
+      <div class="stat-value" style="color:var(--accent3);">$0</div>
       <div class="stat-sub">0 הוצאות</div>
+    </div>
+  
+    <div class="stat-card" style="border:1.5px solid #ffd66a55;background:rgba(255,214,106,0.07);">
+      <div class="stat-label">💰 סה"כ</div>
+      <div class="stat-value" style="color:#ffd66a;font-size:26px;">$303</div>
+      <div class="stat-sub">7 הוצאות סה"כ</div>
     </div>
   </div>
     <div class="cash-banner" id="cash-banner">
@@ -1064,7 +1064,7 @@
           <button class="filter-tab" id="line-period-90" onclick="setLinePeriod(90,this)" style="font-size:11px;padding:3px 10px;">3 חודשים</button>
           <button class="filter-tab" id="line-period-365" onclick="setLinePeriod(365,this)" style="font-size:11px;padding:3px 10px;">שנה</button>
         </div>
-        <canvas id="lineChart" height="323" width="646" style="display: block; box-sizing: border-box; height: 323px; width: 646px;"></canvas>
+        <canvas id="lineChart" height="323" style="box-sizing: border-box; display: block; height: 323px; width: 646px;" width="646"></canvas>
       </div>
       <div class="chart-card">
         <div class="chart-header">
@@ -1080,7 +1080,7 @@
           <button class="filter-tab" id="dash-donut-period-3m" onclick="setDashDonutPeriod(&#39;3m&#39;,this)" style="font-size:11px;padding:3px 10px;">3 חודשים</button>
           <button class="filter-tab" id="dash-donut-period-year" onclick="setDashDonutPeriod(&#39;year&#39;,this)" style="font-size:11px;padding:3px 10px;">שנה</button>
         </div>
-        <canvas id="donutChart" height="302" width="302" style="display: block; box-sizing: border-box; height: 302px; width: 302px;"></canvas>
+        <canvas id="donutChart" height="302" style="box-sizing: border-box; display: block; height: 302px; width: 302px;" width="302"></canvas>
       </div>
     </div>
     <div>
@@ -2014,6 +2014,10 @@ if (state.settings?.pageTitle) {
 
 render();
 
+window.addEventListener('load', () => {
+  setTimeout(() => { renderLineChart(); renderDonutChart(); }, 300);
+});
+
 function setTodayDate() {
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('exp-date').value = today;
@@ -2107,17 +2111,19 @@ function renderSummaryCards() {
     return trip && (trip.name.includes('קוסטה') || trip.name.toLowerCase().includes('costa'));
   });
 
+  const allExp = state.expenses.filter(e => (e.currency || 'USD') === defCur);
+
   const cards = [
     { label: 'היום', value: formatAmount(sumCur(todayExp), defCur), sub: `${todayExp.length} הוצאות`, color: 'var(--accent)' },
     { label: 'שבוע אחרון', value: formatAmount(sumCur(weekExp), defCur), sub: `${weekExp.length} הוצאות`, color: 'var(--accent2)' },
-    { label: 'חודש אחרון', value: formatAmount(sumCur(monthExp), defCur), sub: `${monthExp.length} הוצאות`, color: 'var(--accent3)' },
-    { label: '🌴 קוסטה ריקה', value: formatAmount(sumCur(costaExp), defCur), sub: `${costaExp.length} הוצאות`, color: '#ff9b6a' },
+    { label: '🌴 קוסטה ריקה', value: formatAmount(sumCur(costaExp), defCur), sub: `${costaExp.length} הוצאות`, color: 'var(--accent3)' },
+    { label: '💰 סה"כ', value: formatAmount(sumCur(allExp), defCur), sub: `${allExp.length} הוצאות סה"כ`, color: '#ffd66a', highlight: true },
   ];
 
   document.getElementById('summary-cards').innerHTML = cards.map(c => `
-    <div class="stat-card">
+    <div class="stat-card" style="${c.highlight ? 'border:1.5px solid #ffd66a55;background:rgba(255,214,106,0.07);' : ''}">
       <div class="stat-label">${c.label}</div>
-      <div class="stat-value" style="color:${c.color}">${c.value}</div>
+      <div class="stat-value" style="color:${c.color};${c.highlight ? 'font-size:26px;' : ''}">${c.value}</div>
       <div class="stat-sub">${c.sub}</div>
     </div>
   `).join('');
@@ -2435,11 +2441,7 @@ function renderCashPage() {
 
 // ==================== CHARTS ====================
 function renderCharts() {
-  // Use setTimeout to ensure the canvas is visible before drawing
-  setTimeout(() => {
-    renderLineChart();
-    renderDonutChart();
-  }, 50);
+  setTimeout(() => { renderLineChart(); renderDonutChart(); }, 150);
 }
 
 function setLinePeriod(days, btn) {
@@ -2914,24 +2916,24 @@ async function callAIForExpenses(input) {
   const defCur = state.settings?.defaultCurrency || 'USD';
 
   const prompt = `אתה עוזר חכם לניהול הוצאות אישיות של מטייל.
-${input.type === 'text' ? 'נתח את הטקסט הבא' : 'נתח את התמונה'} וחלץ ממנו רשימת הוצאות.
+${input.type === 'text' ? 'נתח את הטקסט הבא' : 'נתח את התמונה'} וחלץ ממנו את כל ההוצאות.
 
 קטגוריות זמינות: ${categoryNames}
 מטבע ברירת מחדל: ${defCur}
 תאריך היום: ${today}
 
-הנחיות לניתוח חכם:
-- "3 למרץ" = תאריך 2025-03-03, לא סכום
+חוקי ניתוח:
+- כל שורה שיש בה מספר + תיאור = הוצאה נפרדת
+- תאריכים ("3 למרץ", "אתמול", "היום") = תאריך לכל ההוצאות שאחריהם
 - "שדה" / "שדה התעופה" = מקום, לא הוצאה
-- "אובר לשדה" = הוצאת תחבורה, מקום = שדה התעופה
-- "קפה בשדה" = קפה במקום שדה התעופה
-- מספר לבד בשורה = סכום להוצאה הקרובה
-- הבן הקשר בין שורות — תאריך בשורה אחת חל על כל ההוצאות שאחריה עד תאריך הבא
-- אם לא צוין מטבע — השתמש ב-${defCur}
-- נחש קטגוריה לפי ההקשר המלא
+- אם יש 5 שורות עם הוצאות → החזר 5 פריטים במערך
+- אל תמזג הוצאות שונות לאחת!
+- מספר לבד בשורה = סכום ההוצאה שלמעלה ממנו או מתחתיו
 
-החזר JSON בלבד, ללא backticks:
-{"expenses":[{"desc":"תיאור","desc_src":"user","amount":45.0,"amount_src":"user","currency":"${defCur}","currency_src":"ai","category":"שם קטגוריה","category_src":"ai","date":"${today}","date_src":"ai","place":"","place_src":"ai"}]}`;
+החזר JSON בלבד, ללא backticks, ללא הסברים:
+{"expenses":[{"desc":"תיאור","desc_src":"user","amount":45.0,"amount_src":"user","currency":"${defCur}","currency_src":"ai","category":"שם קטגוריה","category_src":"ai","date":"${today}","date_src":"ai","place":"","place_src":"ai"}]}
+
+חשוב: החזר מערך עם כל ההוצאות שמצאת, גם אם יש הרבה!`;
 
   const messages = input.type === 'text'
     ? [{ role: 'user', content: `${prompt}\n\nטקסט:\n${input.text}` }]
