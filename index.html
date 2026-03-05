@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0043)file:///C:/Users/eli01/Downloads/index.html -->
+<!-- saved from url=(0045)file:///C:/Users/eli01/Downloads/index_1.html -->
 <html lang="he" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -1064,7 +1064,7 @@
           <button class="filter-tab" id="line-period-90" onclick="setLinePeriod(90,this)" style="font-size:11px;padding:3px 10px;">3 חודשים</button>
           <button class="filter-tab" id="line-period-365" onclick="setLinePeriod(365,this)" style="font-size:11px;padding:3px 10px;">שנה</button>
         </div>
-        <canvas id="lineChart" height="323" style="display: block; box-sizing: border-box; height: 323px; width: 646px;" width="646"></canvas>
+        <canvas id="lineChart" height="323" width="646" style="display: block; box-sizing: border-box; height: 323px; width: 646px;"></canvas>
       </div>
       <div class="chart-card">
         <div class="chart-header">
@@ -2029,6 +2029,13 @@ function switchPage(page) {
     if (t.textContent.toLowerCase().includes(getTabText(page))) t.classList.add('active');
   });
   render();
+  // Redraw charts after page is visible
+  if (page === 'dashboard') {
+    setTimeout(() => { renderLineChart(); renderDonutChart(); }, 100);
+  }
+  if (page === 'stats') {
+    setTimeout(() => { renderStats(); }, 100);
+  }
 }
 
 function setActiveBottomTab(btn) {
@@ -2428,8 +2435,11 @@ function renderCashPage() {
 
 // ==================== CHARTS ====================
 function renderCharts() {
-  renderLineChart();
-  renderDonutChart();
+  // Use setTimeout to ensure the canvas is visible before drawing
+  setTimeout(() => {
+    renderLineChart();
+    renderDonutChart();
+  }, 50);
 }
 
 function setLinePeriod(days, btn) {
@@ -3166,17 +3176,19 @@ function saveAllDetected() {
   const toSave = detectedExpenses.filter(e => !e._excluded);
   if (!toSave.length) { showToast('⚠️ לא נבחרו הוצאות'); return; }
 
-  toSave.forEach(ex => {
+  toSave.forEach((ex, idx) => {
     if (!ex.amount || parseFloat(ex.amount) <= 0) return;
     state.expenses.push({
-      id: Date.now().toString() + Math.random(),
+      id: Date.now().toString() + '_' + idx + '_' + Math.random().toString(36).substr(2,5),
       amount: parseFloat(ex.amount),
       date: ex.date,
       currency: ex.currency || 'USD',
       desc: ex.desc || '',
       place: ex.place || '',
       category: ex.category,
-      payment: 'לא צוין',
+      payment: state.settings?.defaultPayment || 'לא צוין',
+      tripId: state.settings?.activeTripId || null,
+      _aiFields: Object.keys(ex).filter(k => k.endsWith('_src') && ex[k] === 'ai').map(k => k.replace('_src','')),
       createdAt: new Date().toISOString()
     });
   });
